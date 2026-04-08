@@ -1,3 +1,10 @@
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -8,32 +15,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap');
-        
         body { font-family: 'Poppins', sans-serif; scroll-behavior: smooth; margin: 0; padding: 0; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         
-        .nav-central { background: #a0c1f3; border-bottom: 2px solid #f1f5f9; }
-        .logo-hover { transition: transform 0.3s ease; }
-        .logo-hover:hover { transform: scale(1.1); }
+        .modal-carrinho-input { background-color: #f8fafc; border: 1px solid #f1f5f9; padding: 1rem; border-radius: 1rem; font-size: 0.875rem; width: 100%; outline: none; transition: border 0.2s; }
+        .modal-carrinho-input:focus { border-color: #3b82f6; }
+        .resumo-box { background-color: #f8fafc; border-radius: 2rem; padding: 2rem; margin: 1.5rem 0; }
+        .btn-enviar-whatsapp { background-color: #22c55e; color: white; padding: 1.25rem; border-radius: 1.5rem; font-weight: 900; font-style: italic; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; box-shadow: 0 10px 15px -3px rgba(34, 197, 94, 0.4); }
         
-        .fundo-cardapio { 
-            background-image: url('img/fundo.png'); 
-            background-attachment: fixed; 
-            background-size: cover; 
-            background-position: center; 
-        }
-
-        .card-pizza { transition: all 0.3s ease; }
-        .card-pizza:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1); }
+        .fundo-cardapio { background-image: url('img/fundo.png'); background-attachment: fixed; background-size: cover; background-position: center; }
+        .nav-central { background: #ffffff; border-bottom: 2px solid #f1f5f9; }
+        .card-pizza { transition: all 0.3s ease; border: 1px solid #f1f5f9; }
         
-        .capa-container { height: 50vh; min-height: 350px; }
-        .capa-overlay { background: linear-gradient(to top, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.2)); }
-
-        .fundo-madeira {
-            background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1517646331032-9e8563c520a1?q=80&w=1200');
-            background-size: cover;
-            background-position: center;
-        }
+        /* Opções de Bebidas no Card */
+        .opt-bebida { border: 1px solid #e2e8f0; padding: 6px 12px; border-radius: 10px; font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+        .opt-bebida:hover { border-color: #3b82f6; color: #3b82f6; }
+        .opt-bebida.active { background-color: #3b82f6; border-color: #3b82f6; color: white; }
     </style>
 </head>
 <body id="inicio" class="bg-slate-50 text-slate-900">
@@ -42,105 +39,68 @@
         const CONFIG = {
             NOME: "Pizzaria Parada do Surf",
             WHATSAPP: "5513997700927",
-            TAXA_ENTREGA: 5
+            TAXA_ENTREGA: 5,
+            HORARIO: "18h às 23h30"
         };
     </script>
 
-   <nav class="fixed top-0 inset-x-0 z-50 nav-central shadow-sm bg-white">
+    <nav class="fixed top-0 inset-x-0 z-50 nav-central shadow-sm bg-white">
         <div class="max-w-6xl mx-auto px-4 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-2 md:gap-3 logo-hover cursor-pointer" onclick="window.scrollTo(0,0)">
-                <img src="img/logo.png" alt="Logo" class="h-10 w-10 md:h-12 md:w-12 object-contain">
-                <div class="flex flex-col md:flex-row md:gap-2 leading-none">
-                    <h1 class="font-black text-blue-600 italic tracking-tighter text-lg md:text-xl uppercase whitespace-nowrap">
-                        Pizzaria Parada do Surf
-                    </h1>
+            <div class="flex items-center gap-2 md:gap-3 cursor-pointer" onclick="window.scrollTo(0,0)">
+                <img src="img/logo.png" alt="Logo" class="h-10 w-10 object-contain">
+                <h1 class="font-black text-blue-600 italic tracking-tighter text-lg uppercase">Parada do Surf</h1>
+            </div>
+            <button onclick="abrirCarrinho()" class="relative p-2 text-slate-600">
+                <div class="bg-slate-100 w-12 h-12 rounded-full flex items-center justify-center">
+                    <i class="fas fa-shopping-basket text-xl"></i>
                 </div>
-            </div>
-            <div class="flex items-center">
-                <button onclick="abrirCarrinho()" class="relative p-2 text-slate-600 hover:text-blue-600 transition-colors group">
-                    <div class="bg-slate-100 group-hover:bg-blue-50 w-12 h-12 rounded-full flex items-center justify-center transition-colors">
-                        <i class="fas fa-shopping-basket text-xl"></i>
-                    </div>
-                    <span id="badge-carrinho" class="absolute top-1 right-1 bg-yellow-400 text-blue-900 text-[11px] font-black w-6 h-6 rounded-full flex items-center justify-center border-2 border-white hidden animate-bounce">
-                        0
-                    </span>
-                </button>
-            </div>
+                <span id="badge-carrinho" class="absolute top-1 right-1 bg-yellow-400 text-blue-900 text-[11px] font-black w-6 h-6 rounded-full flex items-center justify-center border-2 border-white hidden">0</span>
+            </button>
         </div>
     </nav>
 
-    <section class="relative capa-container w-full mt-20 overflow-hidden">
-        <img src="img/capa.png" alt="Capa" class="w-full h-full object-cover">
-        <div class="absolute inset-0 capa-overlay flex flex-col items-center justify-end pb-12 text-center px-6">
-            <h2 class="text-5xl md:text-7xl font-black text-white italic uppercase drop-shadow-lg leading-tight tracking-tighter">Cardápio Digital<p> Pizzas</h2>
-            <div class="mt-6 flex items-center gap-4 bg-white/10 backdrop-blur-md px-6 py-2 rounded-full border border-white/20">
-                <div class="flex items-center gap-2">
-                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                    <span class="text-white text-[10px] font-bold uppercase">Aberto Agora</span>
-                </div>
-                <div class="w-[1px] h-4 bg-white/20"></div>
-                <span class="text-white text-[10px] font-bold uppercase">Entrega: 30-50 min</span>
-            </div>
+    <section class="mt-20 bg-blue-600 text-white py-3 overflow-hidden">
+        <div class="flex whitespace-nowrap gap-8 animate-pulse justify-center text-[10px] font-bold uppercase tracking-widest">
+            <span><i class="fas fa-clock mr-2"></i> Aberto: 18h às 23h30</span>
+            <span class="hidden md:inline">|</span>
+            <span><i class="fas fa-motorcycle mr-2"></i> Entrega Rápida</span>
+            <span class="hidden md:inline">|</span>
+            <span><i class="fas fa-pizza-slice mr-2"></i> Massas Artesanais</span>
         </div>
     </section>
 
-    <main class="relative z-10 fundo-cardapio">
+    <section class="relative w-full h-[30vh] overflow-hidden">
+        <img src="img/capa.png" alt="Capa" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 to-transparent flex flex-col items-center justify-end pb-8 text-white">
+            <h2 class="text-4xl md:text-6xl font-black italic uppercase tracking-tighter">Cardápio Digital</h2>
+        </div>
+    </section>
+
+    <main class="relative fundo-cardapio min-h-screen">
         <div class="absolute inset-0 bg-slate-50/70 backdrop-blur-sm"></div>
         <div class="max-w-6xl mx-auto px-4 relative z-10">
-            <nav class="sticky top-20 z-40 bg-transparent py-6">
-                <div class="flex items-center justify-start md:justify-center overflow-x-auto gap-2 no-scrollbar pb-2 px-2 mask-linear">
-                    <button onclick="filtrar('Tradicionais')" id="btn-Tradicionais" class="tab-btn whitespace-nowrap bg-yellow-400 text-blue-900 px-5 py-3 rounded-2xl font-bold shadow-lg transition-all text-sm md:text-base border-2 border-transparent active:scale-95">Tradicionais</button>
-                    <button onclick="filtrar('Especiais')" id="btn-Especiais" class="tab-btn whitespace-nowrap bg-white text-blue-900 px-5 py-3 rounded-2xl font-bold shadow-sm transition-all border-2 border-slate-100 text-sm md:text-base active:scale-95">Especiais</button>
-                    <button onclick="filtrar('Vegetarianas')" id="btn-Vegetarianas" class="tab-btn whitespace-nowrap bg-white text-blue-900 px-5 py-3 rounded-2xl font-bold shadow-sm transition-all border-2 border-slate-100 text-sm md:text-base active:scale-95">Vegetarianas</button>
-                    <button onclick="filtrar('Doces')" id="btn-Doces" class="tab-btn whitespace-nowrap bg-white text-blue-900 px-5 py-3 rounded-2xl font-bold shadow-sm transition-all border-2 border-slate-100 text-sm md:text-base active:scale-95">Doces</button>
-                    <button onclick="filtrar('Bebidas')" id="btn-Bebidas" class="tab-btn whitespace-nowrap bg-white text-blue-900 px-5 py-3 rounded-2xl font-bold shadow-sm transition-all border-2 border-slate-100 text-sm md:text-base active:scale-95">Bebidas</button>
+            
+            <nav class="sticky top-20 z-40 py-6">
+                <div class="flex items-center justify-start md:justify-center overflow-x-auto gap-2 no-scrollbar pb-2">
+                    <button onclick="filtrar('Tradicionais')" id="btn-Tradicionais" class="tab-btn bg-yellow-400 text-blue-900 px-5 py-3 rounded-2xl font-bold shadow-lg text-sm transition-all">Tradicionais</button>
+                    <button onclick="filtrar('Especiais')" id="btn-Especiais" class="tab-btn bg-white text-blue-900 px-5 py-3 rounded-2xl font-bold shadow-sm text-sm transition-all">Especiais</button>
+                    <button onclick="filtrar('Vegetarianas')" id="btn-Vegetarianas" class="tab-btn bg-white text-blue-900 px-5 py-3 rounded-2xl font-bold shadow-sm text-sm transition-all">Vegetarianas</button>
+                    <button onclick="filtrar('Doces')" id="btn-Doces" class="tab-btn bg-white text-blue-900 px-5 py-3 rounded-2xl font-bold shadow-sm text-sm transition-all">Doces</button>
+                    <button onclick="filtrar('Bebidas')" id="btn-Bebidas" class="tab-btn bg-white text-blue-900 px-5 py-3 rounded-2xl font-bold shadow-sm text-sm transition-all">Bebidas</button>
                 </div>
             </nav>
-            <div id="lista-produtos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 pb-20"></div>
+
+            <div id="container-meio-meio" class="mb-8 flex justify-center">
+                <button onclick="iniciarMeioMeio()" class="bg-blue-600 text-white px-8 py-4 rounded-full font-black uppercase italic tracking-widest shadow-xl flex items-center gap-3">
+                    <i class="fas fa-star text-yellow-400"></i> Pizza Meio a Meio <i class="fas fa-star text-yellow-400"></i>
+                </button>
+            </div>
+
+            <div id="lista-produtos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pb-20"></div>
         </div>
     </main>
 
-    <section class="relative w-full min-h-[500px] md:h-[450px] flex items-center overflow-hidden border-t-8 border-yellow-400 shadow-2xl">
-        <div class="absolute inset-0 z-0">
-            <img src="img/capa.png" alt="Capa Parada do Surf" class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-transparent md:bg-gradient-to-r"></div>
-            <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px]"></div>
-        </div>
-        <div class="max-w-6xl mx-auto px-6 py-12 md:py-0 w-full relative z-10">
-            <div class="grid grid-cols-1 lg:grid-cols-2 items-center gap-10">
-                <div class="flex flex-col gap-4 text-white animate-fade-in-left">
-                    <div class="flex items-center gap-4">
-                        <div class="w-14 h-14 md:w-16 md:h-16 flex items-center justify-center rounded-full border-4 border-yellow-400 bg-white shadow-xl text-yellow-600 shrink-0">
-                            <i class="fas fa-motorcycle text-2xl md:text-3xl"></i>
-                        </div>
-                        <h3 class="text-5xl md:text-7xl font-black italic uppercase tracking-tighter text-yellow-400 drop-shadow-[0_5px_15px_rgba(0,0,0,0.5)]">Delivery</h3>
-                    </div>
-                    <div class="space-y-3 mt-4 ml-2 pl-6 border-l-4 border-yellow-400">
-                        <div class="flex items-center gap-3 text-lg md:text-2xl font-bold italic uppercase tracking-tight">
-                            <i class="fas fa-calendar-alt text-yellow-400"></i>
-                            <span>Quarta a Domingo</span>
-                        </div>
-                        <div class="flex items-center gap-3 text-lg md:text-2xl font-bold italic uppercase tracking-tight">
-                            <i class="fas fa-clock text-yellow-400"></i>
-                            <span>19h às 23h</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-white/10 backdrop-blur-xl p-6 md:p-10 rounded-[2.5rem] md:rounded-[4rem] border border-white/20 shadow-2xl flex flex-col items-center justify-center text-center transform hover:scale-[1.02] transition-transform">
-                    <p class="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-yellow-400 mb-6 bg-black/30 px-4 py-1 rounded-full">Peça agora pelo WhatsApp</p>
-                    <a href="https://wa.me/5513997700927" target="_blank" class="flex flex-col md:flex-row items-center gap-4 group">
-                        <div class="text-4xl text-green-500 bg-white w-16 h-16 rounded-2xl flex items-center justify-center shadow-[0_0_20px_rgba(34,197,94,0.4)] group-hover:rotate-12 transition-all">
-                            <i class="fab fa-whatsapp"></i>
-                        </div>
-                        <div class="flex flex-col items-center md:items-start">
-                            <span class="text-3xl md:text-5xl font-black italic tracking-tighter text-white drop-shadow-lg group-hover:text-yellow-400 transition-colors">(13) 99770-0927</span>
-                            <span class="text-white/60 text-xs texxt-center uppercase font-bold tracking-widest mt-1">Clique para iniciar conversa</span>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+     
     
     <footer class="bg-black text-slate-300 py-16 border-t border-slate-800">
         <div class="max-w-6xl mx-auto px-6 text-center flex flex-col items-center">
@@ -160,71 +120,63 @@
     </footer>
 
     <div id="checkout-bar" class="fixed bottom-8 inset-x-4 max-w-md mx-auto z-50 hidden">
-        <button onclick="abrirCarrinho()" class="w-full bg-slate-900 text-white p-5 rounded-[2.5rem] shadow-2xl flex justify-between items-center ring-4 ring-white">
+        <button onclick="abrirCarrinho()" class="w-full bg-slate-900 text-white p-5 rounded-[2.5rem] shadow-2xl flex justify-between items-center border-4 border-white">
             <div class="flex items-center gap-3">
-                <div class="bg-yellow-400 text-blue-900 w-10 h-10 rounded-full flex items-center justify-center font-black">
-                    <span id="badge-total-items">0</span>
-                </div>
-                <div class="text-left">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase leading-none">Meu Pedido</p>
-                    <p id="total-view" class="text-xl font-black">R$ 0,00</p>
-                </div>
+                <div id="badge-total-items" class="bg-yellow-400 text-blue-900 w-10 h-10 rounded-full flex items-center justify-center font-black">0</div>
+                <div class="text-left"><p id="total-view" class="text-xl font-black">R$ 0,00</p></div>
             </div>
-            <span class="font-black text-sm uppercase tracking-widest bg-blue-600 px-5 py-2 rounded-2xl">Finalizar</span>
+            <span class="font-black text-sm uppercase tracking-widest bg-blue-600 px-5 py-2 rounded-2xl italic">Ver Pedido</span>
         </button>
     </div>
 
     <div id="modal-carrinho" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm hidden z-[100] items-center justify-center p-4">
-        <div class="bg-white w-full max-w-md rounded-[3rem] p-8 shadow-2xl overflow-y-auto max-h-[90vh] no-scrollbar border-4 border-blue-600">
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-3xl font-black text-slate-900 italic uppercase tracking-tighter">Meu Carrinho</h2>
-                <button onclick="fecharCarrinho()" class="bg-slate-100 w-12 h-12 rounded-full text-slate-500"><i class="fas fa-times text-xl"></i></button>
+        <div class="bg-white w-full max-w-md rounded-[3rem] p-8 shadow-2xl overflow-y-auto max-h-[95vh] border-2 border-black">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-black text-slate-900 uppercase italic">Meu Carrinho</h2>
+                <button onclick="fecharCarrinho()" class="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-400"><i class="fas fa-times"></i></button>
             </div>
-            <div id="itens-carrinho" class="space-y-4 mb-8"></div>
-            <form id="form-pedido" class="space-y-4 mb-8">
-                <div class="grid grid-cols-3 gap-2">
-                    <input type="text" id="f-rua" placeholder="Rua / Av *" required class="col-span-2 bg-slate-50 p-4 rounded-2xl text-sm outline-none border border-slate-100">
-                    <input type="text" id="f-num" placeholder="Nº *" required class="bg-slate-50 p-4 rounded-2xl text-sm outline-none border border-slate-100">
-                </div>
-                <input type="text" id="f-bairro" placeholder="Bairro *" required class="w-full bg-slate-50 p-4 rounded-2xl text-sm outline-none border border-slate-100">
-                <input type="tel" id="f-tel" placeholder="Seu WhatsApp *" required class="w-full bg-slate-100 p-4 rounded-2xl text-sm outline-none border border-slate-100">
-                <select id="f-pgto" onchange="document.getElementById('f-troco').classList.toggle('hidden', this.value !== 'Dinheiro')" class="w-full bg-slate-50 p-4 rounded-2xl text-sm font-bold border border-slate-100 outline-none">
-                    <option value="Pix">Pix (Entrega)</option>
-                    <option value="Cartão">Cartão na Entrega</option>
-                    <option value="Dinheiro">Dinheiro</option>
-                </select>
-                <input type="number" id="f-troco" placeholder="Troco para quanto?" class="w-full bg-slate-50 p-4 rounded-2xl text-sm hidden font-bold border border-slate-100">
-            </form>
-            <div class="bg-slate-50 p-6 rounded-[2rem] mb-8 border border-slate-100">
-                <div class="flex justify-between text-xs font-bold text-slate-500 uppercase tracking-widest mb-2"><span>Subtotal:</span><span id="res-sub">R$ 0,00</span></div>
-                <div class="flex justify-between text-xs font-bold text-slate-500 uppercase tracking-widest mb-4"><span>Entrega:</span><span>R$ 5,00</span></div>
-                <div class="flex justify-between text-2xl font-black text-slate-900 pt-4 border-t-2 border-dashed border-slate-200"><span>Total:</span><span id="res-total">R$ 0,00</span></div>
+            <div id="itens-carrinho" class="space-y-3 mb-6"></div>
+            <div class="grid grid-cols-4 gap-3 mb-3">
+                <input type="text" id="f-rua" placeholder="Rua / Av *" class="col-span-3 modal-carrinho-input">
+                <input type="text" id="f-num" placeholder="Nº *" class="modal-carrinho-input">
             </div>
-            
-            <div class="flex flex-col gap-3">
-                <button onclick="gerarPedido()" class="w-full bg-green-500 text-white py-6 rounded-3xl font-black text-lg shadow-xl shadow-green-200 flex justify-center items-center gap-3 italic transition-transform active:scale-95 uppercase tracking-widest">ENVIAR PEDIDO <i class="fab fa-whatsapp text-2xl"></i></button>
-                <button onclick="limparEIniciar()" class="w-full bg-red-100 text-red-600 font-black py-4 rounded-2xl text-sm uppercase tracking-widest hover:bg-red-200 transition-colors"> <i class="fas fa-trash-alt mr-2"></i> Limpar e Reiniciar</button>
-                <button onclick="fecharCarrinho(); window.scrollTo(0,0)" class="w-full text-slate-400 font-bold py-2 text-sm uppercase tracking-widest hover:text-blue-600 transition-colors"> <i class="fas fa-home mr-2"></i> Retornar ao Início</button>
+            <input type="text" id="f-bairro" placeholder="Bairro *" class="modal-carrinho-input mb-3">
+            <input type="text" id="f-whatsapp" placeholder="Seu WhatsApp *" class="modal-carrinho-input mb-3">
+            <select id="f-pgto" class="modal-carrinho-input mb-6 font-bold">
+                <option value="Pix">Pix (Entrega)</option>
+                <option value="Cartão">Cartão na Entrega</option>
+                <option value="Dinheiro">Dinheiro</option>
+            </select>
+            <div class="resumo-box">
+                <div class="flex justify-between text-xs font-black text-slate-400 uppercase mb-1"><span>Subtotal:</span><span id="res-subtotal">R$ 0,00</span></div>
+                <div class="flex justify-between text-xs font-black text-slate-400 uppercase pb-4 border-b border-dashed border-slate-300"><span>Entrega:</span><span id="res-entrega">R$ 5,00</span></div>
+                <div class="flex justify-between items-center mt-6"><span class="text-3xl font-black text-slate-900">Total:</span><span id="res-total" class="text-3xl font-black text-slate-900">R$ 0,00</span></div>
+            </div>
+            <div class="space-y-4">
+                <button onclick="gerarPedido()" class="btn-enviar-whatsapp">ENVIAR PEDIDO <i class="fab fa-whatsapp text-2xl"></i></button>
+                <button onclick="limparCarrinho()" class="w-full bg-red-50 text-red-500 py-4 rounded-2xl font-black text-[10px] uppercase flex items-center justify-center gap-2"><i class="fas fa-trash-alt"></i> Limpar e Reiniciar</button>
+                <button onclick="fecharCarrinho()" class="w-full text-slate-400 font-black text-[10px] uppercase text-center">Retornar ao Início</button>
             </div>
         </div>
     </div>
 
-    <div id="modal-confirmacao" class="fixed inset-0 bg-slate-900/90 backdrop-blur-md hidden z-[110] items-center justify-center p-4">
-        <div class="bg-white w-full max-sm rounded-[2.5rem] p-8 shadow-2xl text-center border-t-8 border-green-500">
-            <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                <i class="fab fa-whatsapp text-4xl"></i>
+    <div id="modal-meio" class="fixed inset-0 bg-blue-900/90 backdrop-blur-md hidden z-[120] items-center justify-center p-4">
+        <div class="bg-white w-full max-w-lg rounded-[2.5rem] p-8 text-center">
+            <h2 class="text-2xl font-black text-blue-900 uppercase italic mb-2">Montar Meio a Meio</h2>
+            <div class="grid grid-cols-2 gap-4 mb-8">
+                <div id="lado1-nome" class="bg-slate-50 p-4 rounded-2xl border-2 border-dashed border-blue-200 text-xs font-bold text-slate-400 uppercase italic">Lado 1...</div>
+                <div id="lado2-nome" class="bg-slate-50 p-4 rounded-2xl border-2 border-dashed border-blue-200 text-xs font-bold text-slate-400 uppercase italic">Lado 2...</div>
             </div>
-            <h2 class="text-2xl font-black text-slate-900 uppercase italic tracking-tighter">Confirmar Pedido?</h2>
-            <p class="text-slate-500 text-sm mt-2 mb-8 leading-relaxed">Seu pedido será enviado agora para o WhatsApp da <b>Parada do Surf</b> para finalização.</p>
-            <div class="flex flex-col gap-3">
-                <button id="btn-final-confirmar" class="w-full bg-green-500 text-white py-5 rounded-2xl font-black text-base shadow-lg shadow-green-200 uppercase tracking-widest transition-transform active:scale-95">Sim, Enviar Agora</button>
-                <button onclick="document.getElementById('modal-confirmacao').classList.replace('flex', 'hidden')" class="w-full text-slate-400 font-bold py-2 text-xs uppercase tracking-widest">Ainda não, voltar</button>
-            </div>
+            <div id="lista-sabores-meio" class="h-64 overflow-y-auto space-y-2 no-scrollbar mb-8"></div>
+            <button id="btn-add-meio" disabled class="w-full bg-blue-600 text-white py-5 rounded-2xl font-black text-lg shadow-lg opacity-30">Adicionar Meio a Meio</button>
+            <button onclick="document.getElementById('modal-meio').classList.replace('flex', 'hidden')" class="mt-4 text-slate-400 font-bold text-xs uppercase">Cancelar</button>
         </div>
     </div>
 
     <script>
-        const PRODUTOS = [
+    
+       // ARRAY DE PIZZAS COMPLETO
+        const PIZZAS = [
             { id: 1, cat: 'Tradicionais', nome: 'Calabreza', preco: 55, desc: 'Molho, calabreza fatiada, cebolas, azeitonas e orégano' },
             { id: 2, cat: 'Tradicionais', nome: 'Mussarela', preco: 55, desc: 'Molho, mussarela, tomate, azeitonas e orégano' },
             { id: 3, cat: 'Tradicionais', nome: 'Marguerita', preco: 55, desc: 'Molho, mussarela, manjericão, tomate, azeitonas e orégano' },
@@ -244,136 +196,133 @@
             { id: 17, cat: 'Especiais', nome: 'Brócolis', preco: 64, desc: 'Molho, catupiry, mussarela, bacon, brócolis refogado, alho dourado, tomate, azeitonas e orégano' },
             { id: 18, cat: 'Especiais', nome: 'Camarão', preco: 115, desc: 'Molho, camarão refogado sem casca, pimentão picado, cebola, 8 camarão grandes, mussarela ou catupiry, tomate, azeitonas e orégano' },
             { id: 19, cat: 'Especiais', nome: 'Frutos do Mar', preco: 115, desc: 'Molho, camarão, mariscos, lulas, todos refogados, pimentão picado, cebola, mussarela, tomate, azeitonas e orégano' },
-            { id: 20, cat: 'Doces', nome: 'Brigadeiro', preco: 60, desc: 'Chocolate de alta qualidade e granulado' },
-            { id: 21, cat: 'Doces', nome: 'Banana com Canela', preco: 50, desc: 'Bananas fatiadas com açúcar e canela' },
+            { id: 30, cat: 'Doces', nome: 'Brigadeiro', preco: 60, desc: 'Chocolate ao leite cremoso e granulado de chocolate.' },
+            { id: 31, cat: 'Doces', nome: 'Romeu e Julieta', preco: 55, desc: 'Mussarela e a clássica goiabada cremosa.' },
+            { id: 32, cat: 'Doces', nome: 'Banana c/ Canela', preco: 55, desc: 'Banana fatiada, açúcar e canela em pó.' },
+            { id: 33, cat: 'Doces', nome: 'Prestigio', preco: 60, desc: 'Chocolate ao leite e coco ralado.' },
             { id: 22, cat: 'Vegetarianas', nome: 'Brócolis com Alho', preco: 64, desc: 'Molho, mussarela, brócolis refogado, alho dourado, parmesão, tomate, azeitona e orégano' },
             { id: 23, cat: 'Vegetarianas', nome: 'Portuguesa Vegetariana', preco: 63, desc: 'Molho, mussarela, ovos, cebola, pimentão, azeitona e milho' },
             { id: 24, cat: 'Vegetarianas', nome: 'Rúcula com Tomate Seco', preco: 70, desc: 'Molho, mussarela, tomate seco, rúcula fresca, parmesão, tomate seco, azeitona e orégano' },
-            { id: 25, cat: 'Bebidas', nome: 'Refrigerante 2L', preco: 15, desc: 'Coca-cola ou Guaraná', img: 'img/refrigerante.png' },
-            { id: 26, cat: 'Bebidas', nome: 'Cerveja', preco: 8, desc: 'Lata 350ml bem gelada', img: 'img/cerveja.png' },
-            { id: 27, cat: 'Bebidas', nome: 'Água Mineral', preco: 4, desc: '500ml com ou sem gás', img: 'img/agua.png' },
-            { id: 28, cat: 'Bebidas', nome: 'Suco Natural', preco: 10, desc: 'Laranja ou Limão 500ml', img: 'img/suco.png' }
+            { id: 17, cat: 'Vegetarianas', nome: 'Brócolis', preco: 64, desc: 'Molho, catupiry, mussarela, bacon, brócolis refogado, alho dourado, tomate, azeitonas e orégano' },
+        ];
+
+        // NOVO ARRAY DE BEBIDAS COM OPÇÕES E FOTOS
+        const BEBIDAS = [
+            { id: 40, cat: 'Bebidas', nome: 'Sucos Naturais 400ml', preco: 12, desc: 'Feitos na hora.', opcoes: ['Maracujá', 'Morango', 'Abacaxi', 'Limão'], img: 'img/suco.png' },
+            { id: 50, cat: 'Bebidas', nome: 'Cerveja Lata', preco: 7.50, desc: 'Geladas.', opcoes: ['Amstel', 'Skol', 'Brahma', 'Original'], img: 'img/cerveja-lata.png' },
+            { id: 51, cat: 'Bebidas', nome: 'Cerveja Long Neck', preco: 13, desc: 'Geladas.', opcoes: ['Heineken', 'Heineken Zero'], img: 'img/heineken.png' },
+            { id: 60, cat: 'Bebidas', nome: 'Refrigerante Lata', preco: 7.50, desc: 'Tradicionais.', opcoes: ['Coca-Cola', 'Coca Zero', 'Guaraná'], img: 'img/coca-lata.png' },
+            { id: 61, cat: 'Bebidas', nome: 'Refrigerante 2L', preco: 16, desc: 'Familiar.', opcoes: ['Coca-Cola', 'Guaraná'], img: 'img/coca-2l.png' },
+            { id: 62, cat: 'Bebidas', nome: 'Água Mineral', preco: 5, desc: 'Refrescante.', opcoes: ['Com Gás', 'Sem Gás'], img: 'img/agua.png' }
         ];
 
         let carrinho = [];
 
         function render(cat = 'Tradicionais') {
             const grid = document.getElementById('lista-produtos');
-            grid.innerHTML = PRODUTOS.filter(p => p.cat === cat).map(p => `
-                <div class="bg-white rounded-[2.5rem] overflow-hidden flex flex-col border border-slate-100 card-pizza shadow-sm h-full">
-                    <div class="relative h-48 overflow-hidden">
-                        <img src="${p.img ? p.img : 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600'}" class="w-full h-full object-cover">
-                        <div class="absolute bottom-4 left-4 bg-slate-900 text-white px-4 py-1 rounded-full font-black text-sm italic shadow-lg">R$ ${p.preco.toFixed(2)}</div>
+            document.getElementById('container-meio-meio').style.display = (cat === 'Bebidas') ? 'none' : 'flex';
+            
+            const lista = (cat === 'Bebidas') ? BEBIDAS : PIZZAS.filter(p => p.cat === cat);
+
+            grid.innerHTML = lista.map(p => {
+                let htmlOpcoes = '';
+                if(p.opcoes) {
+                    htmlOpcoes = `<div class="flex flex-wrap gap-1 mt-3 mb-4">` + 
+                        p.opcoes.map(opt => `<span onclick="selOpt(this, '${opt}')" class="opt-bebida">${opt}</span>`).join('') + 
+                        `</div>`;
+                }
+
+                return `
+                <div class="bg-white rounded-[2rem] overflow-hidden flex flex-col card-pizza shadow-sm">
+                    <img src="${p.img ? p.img : 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600'}" class="h-44 w-full object-cover">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-black text-slate-900 text-lg uppercase italic tracking-tighter">${p.nome}</h3>
+                            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg font-black text-xs italic">R$ ${p.preco.toFixed(2)}</span>
+                        </div>
+                        <p class="text-xs text-slate-400">${p.desc}</p>
+                        ${htmlOpcoes}
+                        <button onclick="addProduto(${p.id}, '${p.cat}')" class="w-full bg-slate-900 text-white py-4 rounded-xl font-black text-xs uppercase tracking-widest mt-auto">Adicionar</button>
                     </div>
-                    <div class="p-6 flex flex-col flex-1">
-                        <h3 class="font-black text-slate-900 text-xl mb-2 italic uppercase tracking-tighter">${p.nome}</h3>
-                        <p class="text-sm text-slate-400 mb-6 flex-1 leading-relaxed">${p.desc}</p>
-                        <button onclick="add(${p.id})" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-blue-600 transition-colors shadow-lg">
-                            Adicionar <i class="fas fa-plus ml-2 text-[10px]"></i>
-                        </button>
-                    </div>
-                </div>
-            `).join('');
+                </div>`;
+            }).join('');
         }
 
-        function filtrar(c) {
-            document.querySelectorAll('.tab-btn').forEach(b => {
-                b.classList.replace('bg-yellow-400', 'bg-white');
-                b.classList.remove('shadow-lg');
-            });
-            const ativo = document.getElementById(`btn-${c}`);
-            ativo.classList.replace('bg-white', 'bg-yellow-400');
-            ativo.classList.add('shadow-lg');
-            render(c);
+        // Selecionar Opção de Bebida clicando
+        let opcaoSelecionada = null;
+        function selOpt(el, opt) {
+            const pai = el.parentElement;
+            pai.querySelectorAll('.opt-bebida').forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
+            opcaoSelecionada = opt;
         }
 
-        function add(id) {
-            carrinho.push(PRODUTOS.find(p => p.id === id));
+        function addProduto(id, cat) {
+            const p = (cat === 'Bebidas') ? BEBIDAS.find(x => x.id === id) : PIZZAS.find(x => x.id === id);
+            
+            if(p.opcoes && !opcaoSelecionada) return alert("Por favor, selecione um sabor/marca primeiro!");
+            
+            const nomeFinal = opcaoSelecionada ? `${p.nome} (${opcaoSelecionada})` : p.nome;
+            carrinho.push({ nome: nomeFinal, preco: p.preco });
+            
+            opcaoSelecionada = null; // reseta
+            document.querySelectorAll('.opt-bebida').forEach(b => b.classList.remove('active'));
             update();
         }
 
         function update() {
             const sub = carrinho.reduce((a, b) => a + b.preco, 0);
-            const total = sub > 0 ? sub + CONFIG.TAXA_ENTREGA : 0;
-            const badge = document.getElementById('badge-carrinho');
-            const badgeBarra = document.getElementById('badge-total-items');
-            
-            document.getElementById('total-view').innerText = `R$ ${total.toFixed(2)}`;
+            document.getElementById('badge-carrinho').innerText = carrinho.length;
+            document.getElementById('badge-total-items').innerText = carrinho.length;
+            document.getElementById('total-view').innerText = `R$ ${(sub > 0 ? sub + CONFIG.TAXA_ENTREGA : 0).toFixed(2)}`;
+            document.getElementById('badge-carrinho').classList.toggle('hidden', carrinho.length === 0);
             document.getElementById('checkout-bar').classList.toggle('hidden', carrinho.length === 0);
-            
-            if(carrinho.length > 0) {
-                badge.innerText = carrinho.length;
-                badgeBarra.innerText = carrinho.length;
-                badge.classList.remove('hidden');
-            } else {
-                badge.classList.add('hidden');
-            }
         }
 
         function abrirCarrinho() {
             const sub = carrinho.reduce((a, b) => a + b.preco, 0);
-            document.getElementById('res-sub').innerText = `R$ ${sub.toFixed(2)}`;
+            document.getElementById('res-subtotal').innerText = `R$ ${sub.toFixed(2)}`;
             document.getElementById('res-total').innerText = `R$ ${(sub + CONFIG.TAXA_ENTREGA).toFixed(2)}`;
             document.getElementById('itens-carrinho').innerHTML = carrinho.map((p, i) => `
-                <div class="flex justify-between items-center bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                    <div>
-                        <p class="font-black text-slate-900 uppercase italic text-sm">${p.nome}</p>
-                        <p class="text-blue-600 font-black text-xs">R$ ${p.preco.toFixed(2)}</p>
-                    </div>
-                    <button onclick="rem(${i})" class="text-red-400 w-10 h-10 rounded-full hover:bg-red-50 transition-colors"><i class="fas fa-trash"></i></button>
-                </div>
-            `).join('');
+                <div class="flex justify-between items-center bg-slate-50 p-6 rounded-[1.5rem] border border-slate-100">
+                    <div><p class="font-black text-slate-900 uppercase italic text-sm">${p.nome}</p><p class="text-blue-600 font-black text-xs">R$ ${p.preco.toFixed(2)}</p></div>
+                    <button onclick="rem(${i})" class="text-red-400 p-2 text-xl"><i class="fas fa-trash"></i></button>
+                </div>`).join('');
             document.getElementById('modal-carrinho').classList.replace('hidden', 'flex');
         }
 
-        function fecharCarrinho() {
-            document.getElementById('modal-carrinho').classList.replace('flex', 'hidden');
-        }
-
-        function limparEIniciar() {
-            if(confirm("Deseja realmente limpar seu carrinho?")) {
-                carrinho = [];
-                update();
-                fecharCarrinho();
-                window.scrollTo(0,0);
-            }
-        }
-
-        function rem(i) {
-            carrinho.splice(i, 1);
-            if(carrinho.length === 0) fecharCarrinho();
-            else abrirCarrinho();
-            update();
-        }
+        function rem(i) { carrinho.splice(i, 1); update(); if(carrinho.length === 0) fecharCarrinho(); else abrirCarrinho(); }
+        function fecharCarrinho() { document.getElementById('modal-carrinho').classList.replace('flex', 'hidden'); }
+        function limparCarrinho() { carrinho = []; update(); fecharCarrinho(); }
+        function filtrar(c) { document.querySelectorAll('.tab-btn').forEach(b => b.classList.replace('bg-yellow-400', 'bg-white')); document.getElementById(`btn-${c}`).classList.replace('bg-white', 'bg-yellow-400'); render(c); }
 
         function gerarPedido() {
             const rua = document.getElementById('f-rua').value;
             const num = document.getElementById('f-num').value;
             const bairro = document.getElementById('f-bairro').value;
-            const tel = document.getElementById('f-tel').value;
-            if(!rua || !num || !bairro || !tel) return alert("Preencha o endereço completo!");
+            const tel = document.getElementById('f-whatsapp').value;
+            const pgto = document.getElementById('f-pgto').value;
+            if(!rua || !num || !bairro || !tel) return alert("Preencha os dados de entrega!");
+            const sub = carrinho.reduce((a, b) => a + b.preco, 0);
+            const total = (sub + CONFIG.TAXA_ENTREGA).toFixed(2);
+            let msg = `🌊 *PARADA DO SURF - NOVO PEDIDO*\n==============================\n`;
+            carrinho.forEach(p => msg += `🍕 *${p.nome.toUpperCase()}*\n`);
+            msg += `==============================\n\n💰 *TOTAL: R$ ${total}*\n\n📍 *ENTREGA EM:*\n${rua}, ${num}\n${bairro}\n📞 *TEL:* ${tel}\n\n💳 *PAGAMENTO:* ${pgto}`;
+            window.open(`https://api.whatsapp.com/send?phone=${CONFIG.WHATSAPP}&text=${encodeURIComponent(msg)}`, '_blank');
+        }
 
-            const modalConfirma = document.getElementById('modal-confirmacao');
-            modalConfirma.classList.replace('hidden', 'flex');
-
-            document.getElementById('btn-final-confirmar').onclick = function() {
-                let sub = carrinho.reduce((a, b) => a + b.preco, 0);
-                let msg = `*🌊 PARADA DO SURF - NOVO PEDIDO*\n`;
-                msg += `==============================\n`;
-                carrinho.forEach(p => msg += `🍕 *${p.nome.toUpperCase()}*\n`);
-                msg += `==============================\n`;
-                msg += `💰 *TOTAL: R$ ${(sub + CONFIG.TAXA_ENTREGA).toFixed(2)}*\n\n`;
-                msg += `📍 *ENTREGA EM:*\n${rua}, ${num}\n${bairro}\n📞 *TEL:* ${tel}\n\n`;
-                msg += `💳 *PAGAMENTO:* ${document.getElementById('f-pgto').value}`;
-                if(document.getElementById('f-troco').value) msg += `\n💵 *TROCO PARA:* R$ ${document.getElementById('f-troco').value}`;
-
-                window.open(`https://api.whatsapp.com/send?phone=${CONFIG.WHATSAPP}&text=${encodeURIComponent(msg)}`, '_blank');
-                
-                carrinho = [];
-                update();
-                fecharCarrinho();
-                modalConfirma.classList.replace('flex', 'hidden');
-            };
+        // Lógica Meio a Meio Simples
+        let m1 = null, m2 = null;
+        function iniciarMeioMeio() {
+            m1 = null; m2 = null;
+            document.getElementById('modal-meio').classList.replace('hidden', 'flex');
+            const lista = document.getElementById('lista-sabores-meio');
+            lista.innerHTML = PIZZAS.map(p => `<div onclick="selMeio(${p.id})" class="flex justify-between p-4 bg-slate-50 rounded-xl cursor-pointer mb-2"><span class="font-bold text-sm uppercase italic">${p.nome}</span><span class="font-black text-blue-600">R$ ${p.preco.toFixed(2)}</span></div>`).join('');
+        }
+        function selMeio(id) {
+            const p = PIZZAS.find(x => x.id === id);
+            if (!m1) { m1 = p; document.getElementById('lado1-nome').innerText = p.nome; } 
+            else { m2 = p; document.getElementById('lado2-nome').innerText = p.nome; const btn = document.getElementById('btn-add-meio'); btn.disabled = false; btn.classList.remove('opacity-30'); btn.onclick = () => { carrinho.push({ nome: `½ ${m1.nome} / ½ ${m2.nome}`, preco: Math.max(m1.preco, m2.preco) }); update(); document.getElementById('modal-meio').classList.replace('flex', 'hidden'); }; }
         }
 
         render();
