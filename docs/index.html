@@ -61,7 +61,7 @@
 
     <section class="mt-20 bg-blue-600 text-white py-3 overflow-hidden">
         <div class="flex whitespace-nowrap gap-8 animate-pulse justify-center text-[10px] font-bold uppercase tracking-widest">
-            <span><i class="fas fa-clock mr-2"></i> Aberto: 18h às 23h30</span>
+            <span><i class="fas fa-clock mr-2"></i> Aberto Qua/Dom: 18h às 23h30</span>
             <span class="hidden md:inline">|</span>
             <span><i class="fas fa-motorcycle mr-2"></i> Entrega Rápida</span>
             <span class="hidden md:inline">|</span>
@@ -100,7 +100,47 @@
         </div>
     </main>
 
-     
+    <section class="relative w-full min-h-[500px] md:h-[450px] flex items-center overflow-hidden border-t-8 border-yellow-400 shadow-2xl">
+        <div class="absolute inset-0 z-0">
+            <img src="img/capa.png" alt="Capa Parada do Surf" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-transparent md:bg-gradient-to-r"></div>
+            <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px]"></div>
+        </div>
+        <div class="max-w-6xl mx-auto px-6 py-12 md:py-0 w-full relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 items-center gap-10">
+                <div class="flex flex-col gap-4 text-white animate-fade-in-left">
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 md:w-16 md:h-16 flex items-center justify-center rounded-full border-4 border-yellow-400 bg-white shadow-xl text-yellow-600 shrink-0">
+                            <i class="fas fa-motorcycle text-2xl md:text-3xl"></i>
+                        </div>
+                        <h3 class="text-5xl md:text-7xl font-black italic uppercase tracking-tighter text-yellow-400 drop-shadow-[0_5px_15px_rgba(0,0,0,0.5)]">Delivery</h3>
+                    </div>
+                    <div class="space-y-3 mt-4 ml-2 pl-6 border-l-4 border-yellow-400">
+                        <div class="flex items-center gap-3 text-lg md:text-2xl font-bold italic uppercase tracking-tight">
+                            <i class="fas fa-calendar-alt text-yellow-400"></i>
+                            <span>Quarta a Domingo</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-lg md:text-2xl font-bold italic uppercase tracking-tight">
+                            <i class="fas fa-clock text-yellow-400"></i>
+                            <span>19h às 23h</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-xl p-6 md:p-10 rounded-[2.5rem] md:rounded-[4rem] border border-white/20 shadow-2xl flex flex-col items-center justify-center text-center transform hover:scale-[1.02] transition-transform">
+                    <p class="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-yellow-400 mb-6 bg-black/30 px-4 py-1 rounded-full">Peça agora pelo WhatsApp</p>
+                    <a href="https://wa.me/5513997700927" target="_blank" class="flex flex-col md:flex-row items-center gap-4 group">
+                        <div class="text-4xl text-green-500 bg-white w-16 h-16 rounded-2xl flex items-center justify-center shadow-[0_0_20px_rgba(34,197,94,0.4)] group-hover:rotate-12 transition-all">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <div class="flex flex-col items-center md:items-start">
+                            <span class="text-3xl md:text-5xl font-black italic tracking-tighter text-white drop-shadow-lg group-hover:text-yellow-400 transition-colors">(13) 99770-0927</span>
+                            <span class="text-white/60 text-xs texxt-center uppercase font-bold tracking-widest mt-1">Clique para iniciar conversa</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
     
     <footer class="bg-black text-slate-300 py-16 border-t border-slate-800">
         <div class="max-w-6xl mx-auto px-6 text-center flex flex-col items-center">
@@ -208,12 +248,13 @@
 
         // NOVO ARRAY DE BEBIDAS COM OPÇÕES E FOTOS
         const BEBIDAS = [
-            { id: 40, cat: 'Bebidas', nome: 'Sucos Naturais 400ml', preco: 12, desc: 'Feitos na hora.', opcoes: ['Maracujá', 'Morango', 'Abacaxi', 'Limão'], img: 'img/suco.png' },
-            { id: 50, cat: 'Bebidas', nome: 'Cerveja Lata', preco: 7.50, desc: 'Geladas.', opcoes: ['Amstel', 'Skol', 'Brahma', 'Original'], img: 'img/cerveja-lata.png' },
-            { id: 51, cat: 'Bebidas', nome: 'Cerveja Long Neck', preco: 13, desc: 'Geladas.', opcoes: ['Heineken', 'Heineken Zero'], img: 'img/heineken.png' },
-            { id: 60, cat: 'Bebidas', nome: 'Refrigerante Lata', preco: 7.50, desc: 'Tradicionais.', opcoes: ['Coca-Cola', 'Coca Zero', 'Guaraná'], img: 'img/coca-lata.png' },
-            { id: 61, cat: 'Bebidas', nome: 'Refrigerante 2L', preco: 16, desc: 'Familiar.', opcoes: ['Coca-Cola', 'Guaraná'], img: 'img/coca-2l.png' },
-            { id: 62, cat: 'Bebidas', nome: 'Água Mineral', preco: 5, desc: 'Refrescante.', opcoes: ['Com Gás', 'Sem Gás'], img: 'img/agua.png' }
+            { id: 40, cat: 'Bebidas', nome: 'Sucos Naturais 400ml', preco: 12, desc: 'Feitos na hora.', opcoes: ['Maracujá', 'Morango', 'Abacaxi', 'Limão'], img: 'img/SucoNatural.png' },
+            { id: 41, cat: 'Bebidas', nome: 'Sucos Naturais 400ml', preco: 14, desc: 'Feitos na hora.', opcoes: ['Laranja', 'Laranja s/ Açucar'], img: 'img/SucoNatural.png' },
+            { id: 50, cat: 'Bebidas', nome: 'Cerveja Lata', preco: 7.50, desc: 'Geladas.', opcoes: ['Amstel', 'Skol', 'Brahma', 'Original'], img: 'img/cervejaLata.png' },
+            { id: 51, cat: 'Bebidas', nome: 'Cerveja Long Neck', preco: 13, desc: 'Geladas.', opcoes: ['Heineken', 'Heineken Zero'], img: 'img/longNeck.png' },
+            { id: 60, cat: 'Bebidas', nome: 'Refrigerante Lata', preco: 7.50, desc: 'Tradicionais.', opcoes: ['Coca-Cola', 'Coca Zero', 'Guaraná'], img: 'img/refriLata.png' },
+            { id: 61, cat: 'Bebidas', nome: 'Refrigerante 2L', preco: 16, desc: 'Familiar.', opcoes: ['Coca-Cola', 'Guaraná'], img: 'img/Refrigerante2L.jpg' },
+            { id: 62, cat: 'Bebidas', nome: 'Água Mineral', preco: 5, desc: 'Refrescante.', opcoes: ['Com Gás', 'Sem Gás'], img: 'img/aguaMineral.png' }
         ];
 
         let carrinho = [];
