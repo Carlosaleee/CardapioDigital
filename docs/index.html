@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -91,10 +84,14 @@
             </nav>
 
             <div id="container-meio-meio" class="mb-8 flex justify-center">
-                <button onclick="iniciarMeioMeio()" class="bg-blue-600 text-white px-8 py-4 rounded-full font-black uppercase italic tracking-widest shadow-xl flex items-center gap-3">
-                    <i class="fas fa-star text-yellow-400"></i> Pizza Meio a Meio <i class="fas fa-star text-yellow-400"></i>
+               
+                <button onclick="iniciarMeioMeio()" 
+                class="bg-blue-600 text-white px-8 py-4 rounded-full font-black uppercase italic tracking-widest shadow-xl flex items-center gap-3 
+               transition-all duration-300 ease-in-out hover:scale-110 hover:shadow-2xl hover:bg-blue-700 active:scale-95">
+                <i class="fas fa-star text-yellow-400 animate-spin-slow"></i> 
+                         Pizza Meio a Meio <i class="fas fa-star text-yellow-400 animate-spin-slow"></i>
                 </button>
-            </div>
+                    </div>
 
             <div id="lista-produtos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pb-20"></div>
         </div>
@@ -200,16 +197,30 @@
         </div>
     </div>
 
-    <div id="modal-meio" class="fixed inset-0 bg-blue-900/90 backdrop-blur-md hidden z-[120] items-center justify-center p-4">
-        <div class="bg-white w-full max-w-lg rounded-[2.5rem] p-8 text-center">
-            <h2 class="text-2xl font-black text-blue-900 uppercase italic mb-2">Montar Meio a Meio</h2>
+    <div id="modal-meio" class="fixed inset-0 hidden z-[120] items-center justify-center p-4">
+    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('img/capa.png');"></div>
+    <div class="absolute inset-0 bg-blue-900/80 backdrop-blur-sm"></div>
+
+    <div class="relative bg-white w-full max-w-lg rounded-[2.5rem] p-8 text-center border-4 border-black shadow-2xl">
+        <h2 class="text-2xl font-black text-blue-900 uppercase italic mb-2">Montar Meio a Meio</h2>
             <div class="grid grid-cols-2 gap-4 mb-8">
                 <div id="lado1-nome" class="bg-slate-50 p-4 rounded-2xl border-2 border-dashed border-blue-200 text-xs font-bold text-slate-400 uppercase italic">Lado 1...</div>
                 <div id="lado2-nome" class="bg-slate-50 p-4 rounded-2xl border-2 border-dashed border-blue-200 text-xs font-bold text-slate-400 uppercase italic">Lado 2...</div>
             </div>
             <div id="lista-sabores-meio" class="h-64 overflow-y-auto space-y-2 no-scrollbar mb-8"></div>
-            <button id="btn-add-meio" disabled class="w-full bg-blue-600 text-white py-5 rounded-2xl font-black text-lg shadow-lg opacity-30">Adicionar Meio a Meio</button>
-            <button onclick="document.getElementById('modal-meio').classList.replace('flex', 'hidden')" class="mt-4 text-slate-400 font-bold text-xs uppercase">Cancelar</button>
+            <button id="btn-add-meio" 
+        disabled 
+        class="w-full bg-blue-600 text-white py-5 rounded-2xl font-black text-xl uppercase italic tracking-widest 
+               border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] 
+               opacity-30 transition-all duration-200 
+               enabled:opacity-100 enabled:hover:bg-yellow-400 enabled:hover:text-black enabled:active:translate-y-1 enabled:active:shadow-none">
+    Adicionar Meio a Meio
+</button>
+
+<button onclick="document.getElementById('modal-meio').classList.replace('flex', 'hidden')" 
+        class="mt-6 text-slate-500 font-black text-xs uppercase tracking-widest hover:text-red-600 transition-colors">
+    <i class="fas fa-times mr-1"></i> Cancelar e Sair
+</button>
         </div>
     </div>
 
@@ -269,21 +280,33 @@
                 let htmlOpcoes = '';
                 if(p.opcoes) {
                     htmlOpcoes = `<div class="flex flex-wrap gap-1 mt-3 mb-4">` + 
-                        p.opcoes.map(opt => `<span onclick="selOpt(this, '${opt}')" class="opt-bebida">${opt}</span>`).join('') + 
+                        p.opcoes.map(opt => `<span onclick="selOpt(this, '${opt}')" class="opt-bebida transition-all hover:bg-blue-50">${opt}</span>`).join('') + 
                         `</div>`;
                 }
 
                 return `
-                <div class="bg-white rounded-[2rem] overflow-hidden flex flex-col card-pizza shadow-sm">
-                    <img src="${p.img ? p.img : 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600'}" class="h-44 w-full object-cover">
-                    <div class="p-6">
+                <div class="bg-white rounded-[2rem] overflow-hidden flex flex-col card-pizza shadow-sm 
+                            transition-all duration-300 ease-out hover:scale-[1.03] hover:shadow-xl hover:z-20">
+                    
+                    <div class="overflow-hidden">
+                        <img src="${p.img ? p.img : 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600'}" 
+                             class="h-44 w-full object-cover transition-transform duration-500 hover:scale-110">
+                    </div>
+
+                    <div class="p-6 flex flex-col flex-grow">
                         <div class="flex justify-between items-start mb-2">
                             <h3 class="font-black text-slate-900 text-lg uppercase italic tracking-tighter">${p.nome}</h3>
                             <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg font-black text-xs italic">R$ ${p.preco.toFixed(2)}</span>
                         </div>
-                        <p class="text-xs text-slate-400">${p.desc}</p>
+                        <p class="text-xs text-slate-400 mb-4">${p.desc}</p>
+                        
                         ${htmlOpcoes}
-                        <button onclick="addProduto(${p.id}, '${p.cat}')" class="w-full bg-slate-900 text-white py-4 rounded-xl font-black text-xs uppercase tracking-widest mt-auto">Adicionar</button>
+                        
+                        <button onclick="addProduto(${p.id}, '${p.cat}')" 
+                                class="w-full bg-slate-900 text-white py-4 rounded-xl font-black text-xs uppercase tracking-widest mt-auto 
+                                       transition-all active:scale-95 hover:bg-blue-600">
+                            Adicionar
+                        </button>
                     </div>
                 </div>`;
             }).join('');
@@ -352,18 +375,79 @@
             window.open(`https://api.whatsapp.com/send?phone=${CONFIG.WHATSAPP}&text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        // Lógica Meio a Meio Simples
+        // Lógica Meio a Meio Refatorada (Sênior Version)
         let m1 = null, m2 = null;
+
         function iniciarMeioMeio() {
-            m1 = null; m2 = null;
+            // 1. Resetar estados lógicos
+            m1 = null; 
+            m2 = null;
+
+            // 2. Resetar interface visual
+            document.getElementById('lado1-nome').innerText = "Lado 1...";
+            document.getElementById('lado2-nome').innerText = "Lado 2...";
+            
+            const btn = document.getElementById('btn-add-meio');
+            btn.disabled = true;
+            btn.classList.add('opacity-30');
+            // Removemos cores de sucesso caso tenham ficado de uma seleção anterior
+            btn.classList.remove('bg-yellow-400', 'text-black');
+            btn.classList.add('bg-blue-600', 'text-white');
+
+            // 3. Abrir Modal
             document.getElementById('modal-meio').classList.replace('hidden', 'flex');
+
+            // 4. Renderizar lista de sabores com feedback visual ao passar o mouse
             const lista = document.getElementById('lista-sabores-meio');
-            lista.innerHTML = PIZZAS.map(p => `<div onclick="selMeio(${p.id})" class="flex justify-between p-4 bg-slate-50 rounded-xl cursor-pointer mb-2"><span class="font-bold text-sm uppercase italic">${p.nome}</span><span class="font-black text-blue-600">R$ ${p.preco.toFixed(2)}</span></div>`).join('');
+            lista.innerHTML = PIZZAS.map(p => `
+                <div onclick="selMeio(${p.id})" 
+                     class="flex justify-between p-4 bg-slate-50 rounded-xl cursor-pointer mb-2 border-2 border-transparent transition-all hover:border-blue-600 hover:bg-blue-50 active:scale-95">
+                    <span class="font-bold text-sm uppercase italic">${p.nome}</span>
+                    <span class="font-black text-blue-600">R$ ${p.preco.toFixed(2)}</span>
+                </div>
+            `).join('');
         }
+
         function selMeio(id) {
             const p = PIZZAS.find(x => x.id === id);
-            if (!m1) { m1 = p; document.getElementById('lado1-nome').innerText = p.nome; } 
-            else { m2 = p; document.getElementById('lado2-nome').innerText = p.nome; const btn = document.getElementById('btn-add-meio'); btn.disabled = false; btn.classList.remove('opacity-30'); btn.onclick = () => { carrinho.push({ nome: `½ ${m1.nome} / ½ ${m2.nome}`, preco: Math.max(m1.preco, m2.preco) }); update(); document.getElementById('modal-meio').classList.replace('flex', 'hidden'); }; }
+
+            if (!m1) {
+                // Selecionando o primeiro sabor
+                m1 = p;
+                const slot1 = document.getElementById('lado1-nome');
+                slot1.innerText = p.nome;
+                slot1.classList.replace('border-blue-200', 'border-blue-600');
+                slot1.classList.replace('text-slate-400', 'text-blue-600');
+            } 
+            else if (!m2) {
+                // Selecionando o segundo sabor
+                m2 = p;
+                const slot2 = document.getElementById('lado2-nome');
+                slot2.innerText = p.nome;
+                slot2.classList.replace('border-blue-200', 'border-blue-600');
+                slot2.classList.replace('text-slate-400', 'text-blue-600');
+
+                // Ativando o botão de confirmação com o novo estilo
+                const btn = document.getElementById('btn-add-meio');
+                btn.disabled = false;
+                btn.classList.remove('opacity-30');
+                
+                // Mudança de cor opcional para indicar "Pronto para adicionar"
+                btn.classList.replace('bg-blue-600', 'bg-yellow-400');
+                btn.classList.replace('text-white', 'text-black');
+
+                btn.onclick = () => {
+                    // Adiciona ao carrinho com o preço da maior
+                    const valorFinal = Math.max(m1.preco, m2.preco);
+                    carrinho.push({ 
+                        nome: `½ ${m1.nome} / ½ ${m2.nome}`, 
+                        preco: valorFinal 
+                    });
+                    
+                    update();
+                    document.getElementById('modal-meio').classList.replace('flex', 'hidden');
+                };
+            }
         }
 
         render();
