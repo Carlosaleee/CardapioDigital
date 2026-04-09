@@ -54,7 +54,11 @@
 
     <section class="mt-20 bg-blue-600 text-white py-3 overflow-hidden">
         <div class="flex whitespace-nowrap gap-8 animate-pulse justify-center text-[10px] font-bold uppercase tracking-widest">
-            <span><i class="fas fa-clock mr-2"></i> Aberto Qua/Dom: 18h às 23h30</span>
+            <span><i class="fas fa-clock mr-2"></i> Aberto </span>
+            <span class="hidden md:inline">|</span>
+            <span><i class="fas fa-clock mr-2"></i> Quarta a Domingo</span>
+            <span class="hidden md:inline">|</span>
+            <span><i class="fas fa-clock mr-2"></i> 18h às 23h30</span>
             <span class="hidden md:inline">|</span>
             <span><i class="fas fa-motorcycle mr-2"></i> Entrega Rápida</span>
             <span class="hidden md:inline">|</span>
@@ -73,15 +77,34 @@
         <div class="absolute inset-0 bg-slate-50/70 backdrop-blur-sm"></div>
         <div class="max-w-6xl mx-auto px-4 relative z-10">
             
-            <nav class="sticky top-20 z-40 py-6">
-                <div class="flex items-center justify-start md:justify-center overflow-x-auto gap-2 no-scrollbar pb-2">
-                    <button onclick="filtrar('Tradicionais')" id="btn-Tradicionais" class="tab-btn bg-yellow-400 text-blue-900 px-5 py-3 rounded-2xl font-bold shadow-lg text-sm transition-all">Tradicionais</button>
-                    <button onclick="filtrar('Especiais')" id="btn-Especiais" class="tab-btn bg-white text-blue-900 px-5 py-3 rounded-2xl font-bold shadow-sm text-sm transition-all">Especiais</button>
-                    <button onclick="filtrar('Vegetarianas')" id="btn-Vegetarianas" class="tab-btn bg-white text-blue-900 px-5 py-3 rounded-2xl font-bold shadow-sm text-sm transition-all">Vegetarianas</button>
-                    <button onclick="filtrar('Doces')" id="btn-Doces" class="tab-btn bg-white text-blue-900 px-5 py-3 rounded-2xl font-bold shadow-sm text-sm transition-all">Doces</button>
-                    <button onclick="filtrar('Bebidas')" id="btn-Bebidas" class="tab-btn bg-white text-blue-900 px-5 py-3 rounded-2xl font-bold shadow-sm text-sm transition-all">Bebidas</button>
-                </div>
-            </nav>
+           <nav class="sticky top-20 z-40 py-6">
+    <div class="flex items-center justify-start md:justify-center overflow-x-auto gap-3 no-scrollbar pb-2">
+        <button onclick="filtrar('Tradicionais')" id="btn-Tradicionais" 
+                class="tab-btn bg-yellow-400 text-blue-900 px-5 py-3 rounded-2xl font-black uppercase italic text-sm transition-all border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[-2px] active:translate-y-[2px] active:shadow-none">
+            Tradicionais
+        </button>
+        
+        <button onclick="filtrar('Especiais')" id="btn-Especiais" 
+                class="tab-btn bg-white text-blue-900 px-5 py-3 rounded-2xl font-black uppercase italic text-sm transition-all border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[-2px] active:translate-y-[2px] active:shadow-none">
+            Especiais
+        </button>
+        
+        <button onclick="filtrar('Vegetarianas')" id="btn-Vegetarianas" 
+                class="tab-btn bg-white text-blue-900 px-5 py-3 rounded-2xl font-black uppercase italic text-sm transition-all border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[-2px] active:translate-y-[2px] active:shadow-none">
+            Vegetarianas
+        </button>
+        
+        <button onclick="filtrar('Doces')" id="btn-Doces" 
+                class="tab-btn bg-white text-blue-900 px-5 py-3 rounded-2xl font-black uppercase italic text-sm transition-all border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[-2px] active:translate-y-[2px] active:shadow-none">
+            Doces
+        </button>
+        
+        <button onclick="filtrar('Bebidas')" id="btn-Bebidas" 
+                class="tab-btn bg-white text-blue-900 px-5 py-3 rounded-2xl font-black uppercase italic text-sm transition-all border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[-2px] active:translate-y-[2px] active:shadow-none">
+            Bebidas
+        </button>
+    </div>
+</nav>
 
             <div id="container-meio-meio" class="mb-8 flex justify-center">
                
@@ -124,14 +147,15 @@
                     </div>
                 </div>
                 <div class="bg-white/10 backdrop-blur-xl p-6 md:p-10 rounded-[2.5rem] md:rounded-[4rem] border border-white/20 shadow-2xl flex flex-col items-center justify-center text-center transform hover:scale-[1.02] transition-transform">
-                    <p class="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-yellow-400 mb-6 bg-black/30 px-4 py-1 rounded-full">Peça agora pelo WhatsApp</p>
+                    <p class="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-yellow-400 mb-6 bg-black/30 px-4 py-1 rounded-full">Fale com nosso Time.</p>
                     <a href="https://wa.me/5513997700927" target="_blank" class="flex flex-col md:flex-row items-center gap-4 group">
                         <div class="text-4xl text-green-500 bg-white w-16 h-16 rounded-2xl flex items-center justify-center shadow-[0_0_20px_rgba(34,197,94,0.4)] group-hover:rotate-12 transition-all">
                             <i class="fab fa-whatsapp"></i>
                         </div>
                         <div class="flex flex-col items-center md:items-start">
-                            <span class="text-3xl md:text-5xl font-black italic tracking-tighter text-white drop-shadow-lg group-hover:text-yellow-400 transition-colors">(13) 99770-0927</span>
-                            <span class="text-white/60 text-xs texxt-center uppercase font-bold tracking-widest mt-1">Clique para iniciar conversa</span>
+                            <span class="text-3xl md:text-5xl font-black italic tracking-tighter text-white drop-shadow-lg group-hover:text-yellow-400 transition-colors">(13) 99770 - 0927</span>
+                           
+                            <span class="text-white/60 text-xs text-center uppercase font-bold tracking-widest mt-1">Clique para iniciar a conversa.</span>
                         </div>
                     </a>
                 </div>
@@ -152,7 +176,8 @@
                 <span class="text-yellow-400 font-bold uppercase tracking-widest">Ilha Comprida / SP</span>
             </p>
             <div class="w-full max-w-lg h-px bg-slate-800 mb-8"></div>
-            <p class="text-[10px] font-bold uppercase tracking-[0.4em] text-slate-600">Desenvolvido por Carlos Alexandre</p>
+            <p class="text-[10px] font-bold uppercase tracking-[0.4em] text-slate-600">Development by  <span class="text-yellow-400">Carlos Alexandre <br><br> </a></span></p>
+            <a href="https://wa.me/5513981344815" target="_blank" class="hover:text-green-500 transition-all text-1xl"><i class="fab fa-whatsapp"></i> (13) 98134-4815</a>
         </div>
     </footer>
 
@@ -166,36 +191,85 @@
         </button>
     </div>
 
-    <div id="modal-carrinho" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm hidden z-[100] items-center justify-center p-4">
-        <div class="bg-white w-full max-w-md rounded-[3rem] p-8 shadow-2xl overflow-y-auto max-h-[95vh] border-2 border-black">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-black text-slate-900 uppercase italic">Meu Carrinho</h2>
-                <button onclick="fecharCarrinho()" class="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-400"><i class="fas fa-times"></i></button>
+   <div id="modal-carrinho" class="fixed inset-0 hidden z-[150] items-center justify-center p-4">
+    <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-md"></div>
+
+    <div class="relative bg-white w-full max-w-md rounded-[2.5rem] p-8 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] border-4 border-black overflow-y-auto max-h-[95vh]">
+        
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-3xl font-black text-slate-900 uppercase italic tracking-tighter">Meu Carrinho</h2>
+            <button onclick="fecharCarrinho()" class="w-12 h-12 bg-slate-100 rounded-2xl border-2 border-black flex items-center justify-center text-slate-900 transition-all hover:bg-red-500 hover:text-white active:scale-90">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+
+        <div id="itens-carrinho" class="space-y-4 mb-8 border-2 border-black">
             </div>
-            <div id="itens-carrinho" class="space-y-3 mb-6"></div>
-            <div class="grid grid-cols-4 gap-3 mb-3">
-                <input type="text" id="f-rua" placeholder="Rua / Av *" class="col-span-3 modal-carrinho-input">
-                <input type="text" id="f-num" placeholder="Nº *" class="modal-carrinho-input">
+
+        <div class="space-y-3 mb-8">
+            <p class="text-[10px] font-black uppercase text-slate-400 ml-2">Informações de Entrega</p>
+            
+            <div class="grid grid-cols-4 gap-3">
+                <input type="text" id="f-rua" placeholder="Rua / Av *" 
+                       class="col-span-3 p-4 bg-slate-50 border-2 border-black rounded-xl font-bold placeholder:text-slate-400 focus:bg-white outline-none">
+                <input type="text" id="f-num" placeholder="Nº *" 
+                       class="p-4 bg-slate-50 border-2 border-black rounded-xl font-bold placeholder:text-slate-400 focus:bg-white outline-none">
             </div>
-            <input type="text" id="f-bairro" placeholder="Bairro *" class="modal-carrinho-input mb-3">
-            <input type="text" id="f-whatsapp" placeholder="Seu WhatsApp *" class="modal-carrinho-input mb-3">
-            <select id="f-pgto" class="modal-carrinho-input mb-6 font-bold">
+            
+            <input type="text" id="f-bairro" placeholder="Bairro *" 
+                   class="w-full p-4 bg-slate-50 border-2 border-black rounded-xl font-bold placeholder:text-slate-400 focus:bg-white outline-none">
+            
+            <input type="text" id="f-whatsapp" placeholder="Seu WhatsApp *" 
+                   class="w-full p-4 bg-slate-50 border-2 border-black rounded-xl font-bold placeholder:text-slate-400 focus:bg-white outline-none">
+            
+            <select id="f-pgto" class="w-full p-4 bg-yellow-200 border-2 border-black rounded-xl font-black uppercase italic cursor-pointer outline-none">
                 <option value="Pix">Pix (Entrega)</option>
                 <option value="Cartão">Cartão na Entrega</option>
                 <option value="Dinheiro">Dinheiro</option>
             </select>
-            <div class="resumo-box">
-                <div class="flex justify-between text-xs font-black text-slate-400 uppercase mb-1"><span>Subtotal:</span><span id="res-subtotal">R$ 0,00</span></div>
-                <div class="flex justify-between text-xs font-black text-slate-400 uppercase pb-4 border-b border-dashed border-slate-300"><span>Entrega:</span><span id="res-entrega">R$ 5,00</span></div>
-                <div class="flex justify-between items-center mt-6"><span class="text-3xl font-black text-slate-900">Total:</span><span id="res-total" class="text-3xl font-black text-slate-900">R$ 0,00</span></div>
+        </div>
+
+        <div class="bg-slate-50 border-2 border-black rounded-[2rem] p-6 mb-8">
+            <div class="flex justify-between text-xs font-black text-slate-500 uppercase mb-2">
+                <span>Subtotal:</span>
+                <span id="res-subtotal" class="text-slate-900">R$ 0,00</span>
             </div>
-            <div class="space-y-4">
-                <button onclick="gerarPedido()" class="btn-enviar-whatsapp">ENVIAR PEDIDO <i class="fab fa-whatsapp text-2xl"></i></button>
-                <button onclick="limparCarrinho()" class="w-full bg-red-50 text-red-500 py-4 rounded-2xl font-black text-[10px] uppercase flex items-center justify-center gap-2"><i class="fas fa-trash-alt"></i> Limpar e Reiniciar</button>
-                <button onclick="fecharCarrinho()" class="w-full text-slate-400 font-black text-[10px] uppercase text-center">Retornar ao Início</button>
+            <div class="flex justify-between text-xs font-black text-slate-500 uppercase pb-4 border-b-2 border-dashed border-slate-300">
+                <span>Entrega:</span>
+                <span id="res-entrega" class="text-green-600">R$ 5,00</span>
+            </div>
+            <div class="flex justify-between items-center mt-4">
+                <span class="text-2xl font-black text-slate-900 uppercase italic">Total:</span>
+                <span id="res-total" class="text-3xl font-black text-blue-600">R$ 0,00</span>
+            </div>
+        </div>
+
+        <div class="space-y-4">
+            <button onclick="gerarPedido()" 
+                    class="w-full bg-green-500 text-white py-5 rounded-2xl font-black text-xl uppercase italic tracking-widest 
+                           border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] 
+                           flex items-center justify-center gap-3 transition-all hover:translate-y-[-2px] hover:bg-green-400 active:translate-y-[2px] active:shadow-none">
+                ENVIAR PEDIDO <i class="fab fa-whatsapp text-2xl"></i>
+            </button>
+
+            <div class="grid grid-cols-2 gap-4">
+                <button onclick="limparCarrinho()" 
+                        class="bg-red-400 text-black py-4 rounded-2xl font-black text-[10px] uppercase italic
+                               border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] 
+                               flex items-center justify-center gap-2 transition-all hover:bg-red-400 active:translate-y-[1px] active:shadow-none">
+                    <i class="fas fa-trash-alt"></i> Limpar
+                </button>
+
+                <button onclick="fecharCarrinho()" 
+                        class="bg-slate-200 text-slate-700 py-4 rounded-2xl font-black text-[10px] uppercase italic
+                               border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
+                               transition-all hover:bg-white active:translate-y-[1px] active:shadow-none">
+                    Retornar
+                </button>
             </div>
         </div>
     </div>
+</div>
 
     <div id="modal-meio" class="fixed inset-0 hidden z-[120] items-center justify-center p-4">
     <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('img/capa.png');"></div>
@@ -284,19 +358,27 @@
                         `</div>`;
                 }
 
+                // O retorno ajustado do card:
                 return `
-                <div class="bg-white rounded-[2rem] overflow-hidden flex flex-col card-pizza shadow-sm 
-                            transition-all duration-300 ease-out hover:scale-[1.03] hover:shadow-xl hover:z-20">
+                <div class="bg-white rounded-[2rem] overflow-hidden flex flex-col card-pizza shadow-sm transition-all duration-300 ease-out hover:scale-[1.03] hover:shadow-xl hover:z-20">
                     
-                    <div class="overflow-hidden">
+                    <div class="relative overflow-hidden group">
+                        
                         <img src="${p.img ? p.img : 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600'}" 
-                             class="h-44 w-full object-cover transition-transform duration-500 hover:scale-110">
+                             class="h-52 w-full object-cover transition-transform duration-500 hover:scale-110">
+                        
+                        <div class="absolute top-4 left-4 bg-yellow-400 px-4 py-2.5 rounded-2xl 
+                                    border-2 border-black 
+                                    text-slate-950 font-black text-xs uppercase italic tracking-widest
+                                    shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] 
+                                    transform group-hover:translate-x-[2px] group-hover:translate-y-[2px] group-hover:shadow-none transition-all z-10">
+                            R$ ${p.preco.toFixed(2)}
+                        </div>
                     </div>
 
                     <div class="p-6 flex flex-col flex-grow">
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="font-black text-slate-900 text-lg uppercase italic tracking-tighter">${p.nome}</h3>
-                            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg font-black text-xs italic">R$ ${p.preco.toFixed(2)}</span>
+                        <div class="mb-2">
+                            <h3 class="font-black text-slate-950 text-xl uppercase italic tracking-tighter">${p.nome}</h3>
                         </div>
                         <p class="text-xs text-slate-400 mb-4">${p.desc}</p>
                         
@@ -369,9 +451,18 @@
             if(!rua || !num || !bairro || !tel) return alert("Preencha os dados de entrega!");
             const sub = carrinho.reduce((a, b) => a + b.preco, 0);
             const total = (sub + CONFIG.TAXA_ENTREGA).toFixed(2);
-            let msg = `🌊 *PARADA DO SURF - NOVO PEDIDO*\n==============================\n`;
+            let 
+            
+            msg = 
+            
+            `🌊 *PARADA DO SURF - NOVO PEDIDO*
+            \n==============================\n`;
             carrinho.forEach(p => msg += `🍕 *${p.nome.toUpperCase()}*\n`);
-            msg += `==============================\n\n💰 *TOTAL: R$ ${total}*\n\n📍 *ENTREGA EM:*\n${rua}, ${num}\n${bairro}\n📞 *TEL:* ${tel}\n\n💳 *PAGAMENTO:* ${pgto}`;
+            msg += `==============================\n\n💰 
+            *TOTAL: R$ ${total}*\n\n📍 
+            *ENTREGA EM:*\n${rua}, ${num}\n${bairro}\n📞 
+            *TEL:* ${tel}\n\n💳
+            *PAGAMENTO:* ${pgto}`;
             window.open(`https://api.whatsapp.com/send?phone=${CONFIG.WHATSAPP}&text=${encodeURIComponent(msg)}`, '_blank');
         }
 
