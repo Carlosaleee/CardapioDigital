@@ -38,14 +38,14 @@
     </script>
 
     <nav class="fixed top-0 inset-x-0 z-50 nav-central shadow-sm bg-white">
-        <div class="max-w-6xl mx-auto px-4 h-20 flex items-center justify-between">
+        <div class="max-w-8xl mx-auto px-4 h-20 flex items-center justify-between">
             <div class="flex items-center gap-2 md:gap-3 cursor-pointer" onclick="window.scrollTo(0,0)">
                 <img src="img/logo.png" alt="Logo" class="h-10 w-10 object-contain">
-                <h1 class="font-black text-blue-600 italic tracking-tighter text-lg uppercase">Parada do Surf</h1>
+                <h1 class="font-black text-black-600 italic tracking-tighter text-lg uppercase">Pizzaria Parada do Surf</h1>
             </div>
             <button onclick="abrirCarrinho()" class="relative p-2 text-slate-600">
-                <div class="bg-slate-100 w-12 h-12 rounded-full flex items-center justify-center">
-                    <i class="fas fa-shopping-basket text-xl"></i>
+                <div class="bg-slate-100 w-12 h-12 rounded-full flex items-center justify-center border-2 border-black">
+                    <i class="fas fa-shopping-basket text-xl "></i>
                 </div>
                 <span id="badge-carrinho" class="absolute top-1 right-1 bg-yellow-400 text-blue-900 text-[11px] font-black w-6 h-6 rounded-full flex items-center justify-center border-2 border-white hidden">0</span>
             </button>
@@ -54,15 +54,12 @@
 
     <section class="mt-20 bg-blue-600 text-white py-3 overflow-hidden">
         <div class="flex whitespace-nowrap gap-8 animate-pulse justify-center text-[10px] font-bold uppercase tracking-widest">
-            <span><i class="fas fa-clock mr-2"></i> Aberto </span>
+            <span><i class="fas fa-motorcycle mr-2"></i> Entrega Rápida</span>
             <span class="hidden md:inline">|</span>
             <span><i class="fas fa-clock mr-2"></i> Quarta a Domingo</span>
             <span class="hidden md:inline">|</span>
             <span><i class="fas fa-clock mr-2"></i> 18h às 23h30</span>
             <span class="hidden md:inline">|</span>
-            <span><i class="fas fa-motorcycle mr-2"></i> Entrega Rápida</span>
-            <span class="hidden md:inline">|</span>
-            <span><i class="fas fa-pizza-slice mr-2"></i> Massas Artesanais</span>
         </div>
     </section>
 
@@ -271,7 +268,7 @@
     </div>
 </div>
 
-    <div id="modal-meio" class="fixed inset-0 hidden z-[120] items-center justify-center p-4">
+    <div id="modal-meio" class="fixed inset-0 hidden z-[120] items-center justify-center p-4 ">
     <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('img/capa.png');"></div>
     <div class="absolute inset-0 bg-blue-900/80 backdrop-blur-sm"></div>
 
@@ -360,7 +357,9 @@
 
                 // O retorno ajustado do card:
                 return `
-                <div class="bg-white rounded-[2rem] overflow-hidden flex flex-col card-pizza shadow-sm transition-all duration-300 ease-out hover:scale-[1.03] hover:shadow-xl hover:z-20">
+                <div class="bg-white rounded-[2rem] overflow-hidden flex flex-col card-pizza 
+                            border-2 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] 
+                            transition-all duration-300 ease-out hover:scale-[1.03] hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] hover:z-20">
                     
                     <div class="relative overflow-hidden group">
                         
