@@ -1,11 +1,21 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    /* 
+
+    CARDÁPIO DIGITAL - PIZZARIA PARADA DO SURF
+    Desenvolvido por Carlos Alexandre
+    Contato: (13) 98134-4815
+    GitHub: https://github.com/CarlosAleee 
+    
+    **\  
     <title>Parada do Surf - Cardápio Digital</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap');
         body { font-family: 'Poppins', sans-serif; scroll-behavior: smooth; margin: 0; padding: 0; }
@@ -97,6 +107,7 @@
     <img src="img/capa.png" alt="Capa" class="w-full h-full object-cover">
     <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 to-transparent flex flex-col items-center justify-end pb-8 text-white">
          <h2 class="text-4xl md:text-6xl font-black italic uppercase tracking-tighter contorno-preto">Cardápio Digital</h2>
+        <h6 class="text-4xl md:text-1xl font-black italic uppercase tracking-tighter contorno-preto">Pizzas / Bebidas</h6>
                   </div>
         </section>
         </div>
@@ -108,6 +119,7 @@
             
            <nav class="sticky top-20 z-40 py-6">
     <div class="flex items-center justify-start md:justify-center overflow-x-auto gap-3 no-scrollbar pb-2">
+
         <button onclick="filtrar('Tradicionais')" id="btn-Tradicionais" 
                 class="tab-btn bg-yellow-400 text-blue-900 px-5 py-3 rounded-2xl font-black uppercase italic text-sm transition-all border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[-2px] active:translate-y-[2px] active:shadow-none">
             Tradicionais
@@ -491,9 +503,9 @@
             \n==============================\n`;
             carrinho.forEach(p => msg += `🍕 *${p.nome.toUpperCase()}*\n`);
             msg += `==============================\n\n💰 
-            *TOTAL: R$ ${total}*\n\n📍 
             *ENTREGA EM:*\n${rua}, ${num}\n${bairro}\n📞 
             *TEL:* ${tel}\n\n💳
+            *TOTAL: R$ ${total}*\n\n📍
             *PAGAMENTO:* ${pgto}`;
             window.open(`https://api.whatsapp.com/send?phone=${CONFIG.WHATSAPP}&text=${encodeURIComponent(msg)}`, '_blank');
         }
