@@ -1,17 +1,16 @@
+<!-- 
+    CARDÁPIO DIGITAL - PIZZARIA PARADA DO SURF
+    Desenvolvido por Carlos Alexandre
+    10/04/2026
+-->
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    /* 
-
-    CARDÁPIO DIGITAL - PIZZARIA PARADA DO SURF
-    Desenvolvido por Carlos Alexandre
-    Contato: (13) 98134-4815
-    GitHub: https://github.com/CarlosAleee 
     
-    **\  
     <title>Parada do Surf - Cardápio Digital</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -43,6 +42,15 @@
         .opt-bebida { border: 1px solid #e2e8f0; padding: 6px 12px; border-radius: 10px; font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
         .opt-bebida:hover { border-color: #3b82f6; color: #3b82f6; }
         .opt-bebida.active { background-color: #3b82f6; border-color: #3b82f6; color: white; }
+
+        img {
+        display: block; /* Remove o espaço extra abaixo de imagens */
+    }
+
+    section {
+        margin: 0;
+        padding: 0;
+    }
     </style>
 </head>
 <body id="inicio" class="bg-slate-50 text-slate-900">
@@ -57,7 +65,7 @@
     </script>
 
    <nav class="fixed top-0 inset-x-0 z-50 bg-white/80 backdrop-blur-lg border-b-4 border-black">
-        <div class="max-w-8x2 mx-auto px-4 h-20 flex items-center justify-between">
+        <div class="max-w-7x1 mx-auto px-4 h-20 flex items-center justify-between">
             
             <div class="flex items-center gap-3 cursor-pointer group" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
                 <div class="relative">
@@ -68,7 +76,7 @@
                     <h1 class="font-black text-slate-900 italic tracking-tighter text-xl uppercase leading-none">
                         Pizzaria Parada do Surf </span>
                     </h1>
-                    <span class="text-[10px] font-bold text-blue-400 uppercase tracking-[0.2em] leading-none mt-1">Pizzaria Artesanal</span>
+                    <span class="text-[10px] font-bold text-blue-400 uppercase tracking-[0.2em] leading-none mt-1">Cardápio Digital</span>
                 </div>
             </div>
 
@@ -89,37 +97,93 @@
         </div>
     </nav>
 
-    <section class="mt-20 bg-blue-600 text-white py-3 overflow-hidden">
+   <section class="mt-[80px] bg-blue-600 text-white py-3 overflow-hidden">
         <div class="flex whitespace-nowrap gap-8 animate-pulse justify-center text-[10px] font-bold uppercase tracking-widest">
             <span><i class="fas fa-motorcycle mr-2"></i> Entrega Rápida</span>
             <span class="hidden md:inline">|</span>
             <span><i class="fas fa-clock mr-2"></i> Quarta à Domingo</span>
             <span class="hidden md:inline">|</span>
             <span><i class="fas fa-clock mr-2"></i> 18h às 23h30</span>
-            <span class="hidden md:inline">|</span>
         </div>
     </section>
 
-    <section class="relative w-full h-[30vh] overflow-hidden">
-        <img src="img/capa.png" alt="Capa" class="w-full h-full object-cover">
-        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 to-transparent flex flex-col items-center justify-end pb-8 text-white">
-           <section class="relative w-full h-[30vh] overflow-hidden">
-    <img src="img/capa.png" alt="Capa" class="w-full h-full object-cover">
-    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 to-transparent flex flex-col items-center justify-end pb-8 text-white">
-         <h2 class="text-4xl md:text-6xl font-black italic uppercase tracking-tighter contorno-preto">Cardápio Digital</h2>
-        <h6 class="text-4xl md:text-1xl font-black italic uppercase tracking-tighter contorno-preto">Pizzas / Bebidas</h6>
-                  </div>
-        </section>
+    <section class="relative w-full h-[35vh] overflow-hidden border-b-4 border-black group">
+    <div id="carousel" class="flex transition-transform duration-700 ease-in-out h-full" style="width: 300%;">
+        
+       <div class="relative w-1/3 h-full flex-shrink-0 overflow-hidden">
+    <img src="img/capa3.png" 
+         alt="Identidade Parada do Surf" 
+         class="w-full h-full object-cover block shadow-none border-none">
         </div>
-    </section>
+
+
+        <div class="relative w-1/3 h-full flex-shrink-0">
+            <img src="img/capa.png" class="w-full h-full object-cover grayscale-[20%]">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col items-center justify-end pb-12">
+                <h2 class="text-4xl md:text-6xl font-black italic uppercase tracking-tighter contorno-preto text-white animate-pulse">
+                    Cardápio Digital
+                </h2>
+            </div>
+        </div>
+
+        <div class="relative w-1/3 h-full flex-shrink-0">
+    <img src="img/Capa2.png" alt="Cliente fazendo pedido na praia" class="w-full h-full object-cover brightness-90">
+    
+    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col items-center justify-end pb-12">
+        <h2 class="text-4xl md:text-6xl font-black italic uppercase tracking-tighter contorno-preto text-yellow-400">
+            Faça seu Pedido
+        </h2>
+        <span class="bg-blue-600 text-white px-5 py-2 font-black text-xs uppercase mt-3 rounded-full border-2 border-white shadow-lg">
+            Direto pelo Celular
+        </span>
+    </div>
+</div>
+
+        
+    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+        <div class="dot w-3 h-3 rounded-full border-2 border-black bg-yellow-400 shadow-[1px_1px_0px_black]"></div>
+        <div class="dot w-3 h-3 rounded-full border-2 border-black bg-white/50 shadow-[1px_1px_0px_black]"></div>
+        <div class="dot w-3 h-3 rounded-full border-2 border-black bg-white/50 shadow-[1px_1px_0px_black]"></div>
+    </div>
+</section>
+
+<script>
+    let currentSlide = 0;
+    const carousel = document.getElementById('carousel');
+    const dots = document.querySelectorAll('.dot');
+
+    function moverCarrossel() {
+        currentSlide = (currentSlide + 1) % 3;
+        carousel.style.transform = `translateX(-${(currentSlide * 100) / 3}%)`;
+        
+        // Atualiza os pontinhos
+        dots.forEach((dot, index) => {
+            dot.classList.toggle('bg-yellow-400', index === currentSlide);
+            dot.classList.toggle('bg-white/50', index !== currentSlide);
+        });
+    }
+
+    setInterval(moverCarrossel, 4000); // Troca a cada 4 segundos
+</script>
+
+    
 
     <main class="relative fundo-cardapio min-h-screen">
-        <div class="absolute inset-0 bg-slate-50/70 backdrop-blur-sm"></div>
-        <div class="max-w-6xl mx-auto px-4 relative z-10">
+    <div class="absolute inset-0 bg-slate-50/70 backdrop-blur-sm"></div>
+    
+    <div class="max-w-6xl mx-auto px-4 relative z-10">
+        
+        <nav class="sticky top-20 z-40 py-6">
             
-           <nav class="sticky top-20 z-40 py-6">
-    <div class="flex items-center justify-start md:justify-center overflow-x-auto gap-3 no-scrollbar pb-2">
+                    <div class="flex flex-col items-center mb-6">
+            <h6 class="text-xl md:text-2xl font-black italic uppercase tracking-tighter contorno-preto text-yellow-400 text-center">
+                Pizzas & Bebidas
+            </h6>
+            <div class="w-12 h-1.5 bg-yellow-400 border-2 border-black mt-1.5 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"></div>
+                    </div>
 
+            <div class="flex items-center justify-start md:justify-center overflow-x-auto gap-3 no-scrollbar pb-2">
+        
         <button onclick="filtrar('Tradicionais')" id="btn-Tradicionais" 
                 class="tab-btn bg-yellow-400 text-blue-900 px-5 py-3 rounded-2xl font-black uppercase italic text-sm transition-all border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[-2px] active:translate-y-[2px] active:shadow-none">
             Tradicionais
@@ -376,10 +440,10 @@
         // NOVO ARRAY DE BEBIDAS COM OPÇÕES E FOTOS
         const BEBIDAS = [
             { id: 40, cat: 'Bebidas', nome: 'Sucos Naturais 400ml', preco: 12, desc: 'Feitos na hora.', opcoes: ['Maracujá', 'Morango', 'Abacaxi', 'Limão'], img: 'img/SucoNatural.png' },
-            { id: 41, cat: 'Bebidas', nome: 'Sucos Naturais 400ml', preco: 14, desc: 'Feitos na hora.', opcoes: ['Laranja', 'Laranja s/ Açucar'], img: 'img/SucoNatural.png' },
-            { id: 50, cat: 'Bebidas', nome: 'Cerveja Lata', preco: 7.50, desc: 'Geladas.', opcoes: ['Amstel', 'Skol', 'Brahma', 'Original'], img: 'img/cervejaLata.png' },
+            { id: 41, cat: 'Bebidas', nome: 'Suco de Laranja 400ml', preco: 14, desc: 'Feitos na hora.', opcoes: ['Laranja', 'Laranja s/ Açucar'], img: 'img/SucoLaranja.png' },
+            { id: 50, cat: 'Bebidas', nome: 'Cerveja Lata 350ml', preco: 7.50, desc: 'Geladas.', opcoes: ['Amstel', 'Skol', 'Brahma', 'Original'], img: 'img/cervejaLata.png' },
             { id: 51, cat: 'Bebidas', nome: 'Cerveja Long Neck', preco: 13, desc: 'Geladas.', opcoes: ['Heineken', 'Heineken Zero'], img: 'img/longNeck.png' },
-            { id: 60, cat: 'Bebidas', nome: 'Refrigerante Lata', preco: 7.50, desc: 'Tradicionais.', opcoes: ['Coca-Cola', 'Coca Zero', 'Guaraná'], img: 'img/refriLata.png' },
+            { id: 60, cat: 'Bebidas', nome: 'Refrigerante Lata 350ml', preco: 7.50, desc: 'Tradicionais.', opcoes: ['Coca-Cola', 'Coca Zero', 'Guaraná'], img: 'img/refriLata.png' },
             { id: 61, cat: 'Bebidas', nome: 'Refrigerante 2L', preco: 16, desc: 'Familiar.', opcoes: ['Coca-Cola', 'Guaraná'], img: 'img/Refrigerante2L.jpg' },
             { id: 62, cat: 'Bebidas', nome: 'Água Mineral', preco: 5, desc: 'Refrescante.', opcoes: ['Com Gás', 'Sem Gás'], img: 'img/aguaMineral.png' }
         ];
@@ -438,6 +502,7 @@
             }).join('');
         }
 
+        
         // Selecionar Opção de Bebida clicando
         let opcaoSelecionada = null;
         function selOpt(el, opt) {
@@ -586,6 +651,32 @@
         }
 
         render();
+
+        
     </script>
+
+    <button id="btn-topo" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" 
+    class="fixed bottom-24 right-6 z-50 bg-yellow-400 text-black w-12 h-12 rounded-xl border-2 border-black 
+           shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 
+           hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none
+           opacity-0 translate-y-10 pointer-events-none">
+    <i class="fas fa-arrow-up text-xl"></i>
+</button>
+<script>
+    const btnTopo = document.getElementById('btn-topo');
+
+    window.onscroll = function() {
+        if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+            // Mostra o botão
+            btnTopo.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+            btnTopo.classList.add('opacity-100', 'translate-y-0', 'pointer-events-all');
+        } else {
+            // Esconde o botão
+            btnTopo.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+            btnTopo.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-all');
+        }
+    };
+</script>
 </body>
 </html>
+
