@@ -1,7 +1,7 @@
-<!-- 
-    CARDÁPIO DIGITAL - PIZZARIA PARADA DO SURF
-    Desenvolvido por Carlos Alexandre
-    10/04/2026
+<!--
+    CARDÁPIO DIGITAL — PIZZARIA PARADA DO SURF
+    Arquivo único: marcação, estilos locais e lógica (Vanilla JS).
+    Desenvolvido por Carlos Alexandre — 10/04/2026
 -->
 
 <!DOCTYPE html>
@@ -10,86 +10,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <meta name="description" content="Cardápio digital interativo da Pizzaria Parada do Surf: categorias, carrinho em tempo real, checkout com endereço e pagamento (incluindo troco) e envio do pedido formatado pelo WhatsApp. Responsivo — HTML5, Tailwind CSS e JavaScript.">
+
     <title>Parada do Surf - Cardápio Digital</title>
+
+    <!-- Tailwind (CDN) + Font Awesome -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
+    <!-- Estilos que não vêm do Tailwind: tipografia, modal, cards, fundo -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap');
-        body { font-family: 'Poppins', sans-serif; scroll-behavior: smooth; margin: 0; padding: 0; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        
-        .modal-carrinho-input { background-color: #f8fafc; border: 1px solid #f1f5f9; padding: 1rem; border-radius: 1rem; font-size: 0.875rem; width: 100%; outline: none; transition: border 0.2s; }
-        .modal-carrinho-input:focus { border-color: #3b82f6; }
-        .resumo-box { background-color: #f8fafc; border-radius: 2rem; padding: 2rem; margin: 1.5rem 0; }
-        .btn-enviar-whatsapp { background-color: #22c55e; color: white; padding: 1.25rem; border-radius: 1.5rem; font-weight: 900; font-style: italic; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; box-shadow: 0 10px 15px -3px rgba(34, 197, 94, 0.4); }
-        
-        .contorno-preto {
-        text-shadow: 
-            -2px -2px 0 #000,  
-             2px -2px 0 #000,
-            -2px  2px 0 #000,
-             2px  2px 0 #000,
-             4px  4px 0px rgba(0,0,0,0.4); /* Sombra projetada suave opcional */
-    }
 
-        .fundo-cardapio { background-image: url('img/fundo.png'); background-attachment: fixed; background-size: cover; background-position: center; }
-        .nav-central { background: #ffffff; border-bottom: 2px solid #f1f5f9; }
-        .card-pizza { transition: all 0.3s ease; border: 1px solid #f1f5f9; }
-        
-        /* Opções de Bebidas no Card */
-        .opt-bebida { border: 1px solid #e2e8f0; padding: 6px 12px; border-radius: 10px; font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
-        .opt-bebida:hover { border-color: #3b82f6; color: #3b82f6; }
-        .opt-bebida.active { background-color: #3b82f6; border-color: #3b82f6; color: white; }
+        /* Base */
+        body {
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+            margin: 0;
+            padding: 0;
+        }
 
         img {
-        display: block; /* Remove o espaço extra abaixo de imagens */
-    }
+            display: block; /* evita espaço extra abaixo da imagem */
+        }
 
-    section {
-        margin: 0;
-        padding: 0;
-    }
+        section {
+            margin: 0;
+            padding: 0;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Checkout / modal (classes legadas, mantidas para consistência) */
+        .modal-carrinho-input {
+            background-color: #f8fafc;
+            border: 1px solid #f1f5f9;
+            padding: 1rem;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            width: 100%;
+            outline: none;
+            transition: border 0.2s;
+        }
+
+        .modal-carrinho-input:focus {
+            border-color: #3b82f6;
+        }
+
+        .resumo-box {
+            background-color: #f8fafc;
+            border-radius: 2rem;
+            padding: 2rem;
+            margin: 1.5rem 0;
+        }
+
+        .btn-enviar-whatsapp {
+            background-color: #22c55e;
+            color: white;
+            padding: 1.25rem;
+            border-radius: 1.5rem;
+            font-weight: 900;
+            font-style: italic;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            box-shadow: 0 10px 15px -3px rgba(34, 197, 94, 0.4);
+        }
+
+        /* Títulos do hero / carrossel */
+        .contorno-preto {
+            text-shadow:
+                -2px -2px 0 #000,
+                2px -2px 0 #000,
+                -2px 2px 0 #000,
+                2px 2px 0 #000,
+                4px 4px 0 rgba(0, 0, 0, 0.4);
+        }
+
+        /* Área do cardápio */
+        .fundo-cardapio {
+            background-image: url('img/fundo.png');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .nav-central {
+            background: #ffffff;
+            border-bottom: 2px solid #f1f5f9;
+        }
+
+        .card-pizza {
+            transition: all 0.3s ease;
+            border: 1px solid #f1f5f9;
+        }
+
+        /* Sabores/marcas de bebida no card do produto */
+        .opt-bebida,
+        .opt-borda {
+            border: 1px solid #e2e8f0;
+            padding: 6px 12px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+        }
+
+        .opt-bebida:hover,
+        .opt-borda:hover {
+            border-color: #3b82f6;
+            color: #3b82f6;
+        }
+
+        .opt-bebida.active,
+        .opt-borda.active {
+            background-color: #3b82f6;
+            border-color: #3b82f6;
+            color: white;
+        }
+
+        /* Categorias do cardápio: foco visível (teclado) */
+        .tab-btn:focus-visible {
+            outline: 3px solid #2563eb;
+            outline-offset: 3px;
+        }
+
+        /* Rolagem horizontal no mobile: indicador sutil nas bordas */
+        .categorias-scroll-wrap {
+            position: relative;
+        }
+
+        .categorias-scroll {
+            -webkit-overflow-scrolling: touch;
+            scroll-snap-type: x mandatory;
+            scroll-padding-inline: 1rem;
+        }
+
+        .categorias-scroll .tab-btn {
+            scroll-snap-align: center;
+            flex-shrink: 0;
+        }
+
+        #btn-obrigado-ok:focus-visible {
+            outline: 3px solid #2563eb;
+            outline-offset: 3px;
+        }
     </style>
 </head>
 <body id="inicio" class="bg-slate-50 text-slate-900">
 
+    <!-- Dados do estabelecimento (usado no JS: WhatsApp, taxa, textos) -->
     <script>
         const CONFIG = {
             NOME: "Pizzaria Parada do Surf",
             WHATSAPP: "5513997700927",
             TAXA_ENTREGA: 5,
-            HORARIO: "18h às 23h30"
+            HORARIO: "18h às 23h30",
+            BORDA_RECHEADA: 7
         };
     </script>
 
-   <nav class="fixed top-0 inset-x-0 z-50 bg-white/80 backdrop-blur-lg border-b-4 border-black">
+    <!-- Barra fixa: marca + atalho do carrinho -->
+    <nav class="fixed top-0 inset-x-0 z-50 bg-white/80 backdrop-blur-lg border-b-4 border-black">
         <div class="max-w-7x1 mx-auto px-4 h-20 flex items-center justify-between">
-            
-            <div class="flex items-center gap-3 cursor-pointer group" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+            <div class="flex items-center gap-3 cursor-pointer group" data-focus-home tabindex="-1" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
                 <div class="relative">
                     <img src="img/logo.png" alt="Logo" class="h-12 w-12 object-contain transform group-hover:rotate-12 transition-transform duration-300">
-                    
                 </div>
                 <div class="flex flex-col">
                     <h1 class="font-black text-slate-900 italic tracking-tighter text-xl uppercase leading-none">
-                        Pizzaria <br>Parada do Surf </span>
+                        Pizzaria <br>Parada do Surf
                     </h1>
                     <span class="text-[10px] font-bold text-blue-400 uppercase tracking-[0.2em] leading-none mt-1">Cardápio Digital</span>
                 </div>
             </div>
 
-            <button onclick="abrirCarrinho()" class="relative group outline-none">
-                <div class="bg-yellow-400 w-11 h-11 rounded-xl flex items-center justify-center border-2 border-black 
+            <button type="button" onclick="abrirCarrinho()" class="relative group outline-none">
+                <div class="bg-yellow-400 w-11 h-11 rounded-xl flex items-center justify-center border-2 border-black
                             shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all duration-200
                             group-hover:translate-x-[2px] group-hover:translate-y-[2px] group-hover:shadow-none
                             group-active:scale-90">
                     <i class="fas fa-shopping-basket text-xl text-black group-hover:animate-bounce"></i>
                 </div>
-                
-                <span id="badge-carrinho" class="absolute -top-2 -right-2 bg-blue-600 text-white text-[12px] font-black w-7 h-7 
-                                               rounded-full flex items-center justify-center border-2 border-white 
+                <span id="badge-carrinho" class="absolute -top-2 -right-2 bg-blue-600 text-white text-[12px] font-black w-7 h-7
+                                               rounded-full flex items-center justify-center border-2 border-white
                                                shadow-lg animate-bounce hidden">
                     0
                 </span>
@@ -97,7 +208,8 @@
         </div>
     </nav>
 
-   <section class="mt-[80px] bg-blue-600 text-white py-3 overflow-hidden">
+    <!-- Faixa de destaques (horário / entrega) -->
+    <section class="mt-[80px] bg-blue-600 text-white py-3 overflow-hidden">
         <div class="flex whitespace-nowrap gap-8 animate-pulse justify-center text-[10px] font-bold uppercase tracking-widest">
             <span><i class="fas fa-motorcycle mr-2"></i> Entrega Rápida</span>
             <span class="hidden md:inline">|</span>
@@ -107,124 +219,134 @@
         </div>
     </section>
 
+    <!-- Hero: 3 slides (largura total = 300% do viewport; translate em passos de 1/3) -->
     <section class="relative w-full h-[35vh] overflow-hidden border-b-4 border-black group">
-    <div id="carousel" class="flex transition-transform duration-700 ease-in-out h-full" style="width: 300%;">
-        
-       <div class="relative w-1/3 h-full flex-shrink-0 overflow-hidden">
-    <img src="img/capa33.png" 
-         alt="Identidade Parada do Surf" 
-         class="w-full h-full object-cover block shadow-none border-none">
-        </div>
+        <div id="carousel" class="flex transition-transform duration-700 ease-in-out h-full" style="width: 300%;">
+            <div class="relative w-1/3 h-full flex-shrink-0 overflow-hidden">
+                <img src="img/capa33.png" alt="Identidade Parada do Surf" class="w-full h-full object-cover block shadow-none border-none">
+            </div>
 
+            <div class="relative w-1/3 h-full flex-shrink-0">
+                <img src="img/capa.png" alt="Capa" class="w-full h-full object-cover grayscale-[20%]">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col items-center justify-end pb-12">
+                    <h2 class="text-4xl md:text-6xl font-black italic uppercase tracking-tighter contorno-preto text-white animate-pulse">
+                        Cardápio Digital
+                    </h2>
+                </div>
+            </div>
 
-        <div class="relative w-1/3 h-full flex-shrink-0">
-            <img src="img/capa.png" class="w-full h-full object-cover grayscale-[20%]">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col items-center justify-end pb-12">
-                <h2 class="text-4xl md:text-6xl font-black italic uppercase tracking-tighter contorno-preto text-white animate-pulse">
-                    Cardápio Digital
-                </h2>
+            <div class="relative w-1/3 h-full flex-shrink-0">
+                <img src="img/Capa2.png" alt="Cliente fazendo pedido na praia" class="w-full h-full object-cover brightness-90">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col items-center justify-end pb-12">
+                    <h2 class="text-4xl md:text-6xl font-black italic uppercase tracking-tighter contorno-preto text-yellow-400">
+                        Faça seu Pedido
+                    </h2>
+                    <span class="bg-blue-600 text-white px-5 py-2 font-black text-xs uppercase mt-3 rounded-full border-2 border-white shadow-lg">
+                        Direto pelo Celular
+                    </span>
+                </div>
             </div>
         </div>
 
-        <div class="relative w-1/3 h-full flex-shrink-0">
-    <img src="img/Capa2.png" alt="Cliente fazendo pedido na praia" class="w-full h-full object-cover brightness-90">
-    
-    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col items-center justify-end pb-12">
-        <h2 class="text-4xl md:text-6xl font-black italic uppercase tracking-tighter contorno-preto text-yellow-400">
-            Faça seu Pedido
-        </h2>
-        <span class="bg-blue-600 text-white px-5 py-2 font-black text-xs uppercase mt-3 rounded-full border-2 border-white shadow-lg">
-            Direto pelo Celular
-        </span>
-    </div>
-</div>
+        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+            <div class="dot w-3 h-3 rounded-full border-2 border-black bg-yellow-400 shadow-[1px_1px_0px_black]"></div>
+            <div class="dot w-3 h-3 rounded-full border-2 border-black bg-white/50 shadow-[1px_1px_0px_black]"></div>
+            <div class="dot w-3 h-3 rounded-full border-2 border-black bg-white/50 shadow-[1px_1px_0px_black]"></div>
+        </div>
+    </section>
 
-        
-    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
-        <div class="dot w-3 h-3 rounded-full border-2 border-black bg-yellow-400 shadow-[1px_1px_0px_black]"></div>
-        <div class="dot w-3 h-3 rounded-full border-2 border-black bg-white/50 shadow-[1px_1px_0px_black]"></div>
-        <div class="dot w-3 h-3 rounded-full border-2 border-black bg-white/50 shadow-[1px_1px_0px_black]"></div>
-    </div>
-</section>
+    <!-- Rotação automática do carrossel + indicadores (.dot) -->
+    <script>
+        let currentSlide = 0;
+        const carousel = document.getElementById('carousel');
+        const dots = document.querySelectorAll('.dot');
 
-<script>
-    let currentSlide = 0;
-    const carousel = document.getElementById('carousel');
-    const dots = document.querySelectorAll('.dot');
+        function moverCarrossel() {
+            currentSlide = (currentSlide + 1) % 3;
+            carousel.style.transform = `translateX(-${(currentSlide * 100) / 3}%)`;
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('bg-yellow-400', index === currentSlide);
+                dot.classList.toggle('bg-white/50', index !== currentSlide);
+            });
+        }
 
-    function moverCarrossel() {
-        currentSlide = (currentSlide + 1) % 3;
-        carousel.style.transform = `translateX(-${(currentSlide * 100) / 3}%)`;
-        
-        // Atualiza os pontinhos
-        dots.forEach((dot, index) => {
-            dot.classList.toggle('bg-yellow-400', index === currentSlide);
-            dot.classList.toggle('bg-white/50', index !== currentSlide);
-        });
-    }
+        setInterval(moverCarrossel, 4000);
+    </script>
 
-    setInterval(moverCarrossel, 4000); // Troca a cada 4 segundos
-</script>
-
-    
-
+    <!-- Cardápio: filtros, grid de produtos, pizza meio a meio -->
     <main class="relative fundo-cardapio min-h-screen">
-    <div class="absolute inset-0 bg-slate-50/70 backdrop-blur-sm"></div>
-    
-    <div class="max-w-6xl mx-auto px-4 relative z-10">
-        
-        <nav class="sticky top-20 z-40 py-6">
-            
-                    <div class="flex flex-col items-center mb-6">
-            <h6 class="text-xl md:text-2xl font-black italic uppercase tracking-tighter contorno-preto text-yellow-400 text-center">
-                Pizzas & Bebidas
-            </h6>
-            <div class="w-12 h-1.5 bg-yellow-400 border-2 border-black mt-1.5 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"></div>
+        <div class="absolute inset-0 bg-slate-50/70 backdrop-blur-sm"></div>
+
+        <div class="max-w-6xl mx-auto px-4 relative z-10">
+            <nav id="nav-cardapio-categorias"
+                 class="sticky top-20 z-40 -mx-4 px-4 py-4 mb-2"
+                 aria-labelledby="titulo-cardapio-categorias">
+                <div class="flex flex-col items-center mb-3 md:mb-4 gap-2">
+                    <h2 id="titulo-cardapio-categorias" class="text-xl md:text-2xl font-black italic uppercase tracking-tighter contorno-preto text-yellow-400 text-center">
+                        Pizzas &amp; Bebidas
+                    </h2>
+                    <p id="desc-cardapio-categorias" class="text-center text-slate-800 text-xs sm:text-sm font-semibold max-w-lg px-2 leading-snug">
+                        <span class="font-black uppercase tracking-wide text-blue-900">Menu do cardápio</span>
+                        <span class="text-slate-600 font-medium"> — escolha uma categoria para ver os produtos.</span>
+                        <span class="sr-only">Em telas pequenas, deslize a faixa de categorias horizontalmente para ver Tradicionais, Especiais, Vegetarianas, Doces e Bebidas.</span>
+                        <span class="block md:hidden text-slate-500 text-[11px] mt-1.5" aria-hidden="true">Dica: deslize a faixa de categorias para o lado.</span>
+                    </p>
+                    <div class="w-12 h-1.5 bg-yellow-400 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" aria-hidden="true"></div>
+                </div>
+
+                <div class="categorias-scroll-wrap">
+                    <div id="lista-tabs-categorias"
+                         role="tablist"
+                         aria-label="Categorias: pizzas e bebidas"
+                         class="categorias-scroll flex items-stretch justify-start md:justify-center overflow-x-auto gap-2 md:gap-3 no-scrollbar pb-2 px-1 touch-pan-x min-h-[48px]">
+                        <button type="button" role="tab" aria-selected="true" aria-controls="lista-produtos" id="btn-Tradicionais"
+                                onclick="filtrar('Tradicionais')"
+                                class="tab-btn min-h-[48px] min-w-[44px] inline-flex items-center justify-center bg-yellow-400 text-blue-900 px-4 sm:px-5 py-3 rounded-2xl font-black uppercase italic text-xs sm:text-sm transition-all border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[-2px] active:translate-y-[2px] active:shadow-none">
+                            Tradicionais
+                        </button>
+                        <button type="button" role="tab" aria-selected="false" aria-controls="lista-produtos" id="btn-Especiais"
+                                onclick="filtrar('Especiais')"
+                                class="tab-btn min-h-[48px] min-w-[44px] inline-flex items-center justify-center bg-white text-blue-900 px-4 sm:px-5 py-3 rounded-2xl font-black uppercase italic text-xs sm:text-sm transition-all border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[-2px] active:translate-y-[2px] active:shadow-none">
+                            Especiais
+                        </button>
+                        <button type="button" role="tab" aria-selected="false" aria-controls="lista-produtos" id="btn-Vegetarianas"
+                                onclick="filtrar('Vegetarianas')"
+                                class="tab-btn min-h-[48px] min-w-[44px] inline-flex items-center justify-center bg-white text-blue-900 px-4 sm:px-5 py-3 rounded-2xl font-black uppercase italic text-xs sm:text-sm transition-all border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[-2px] active:translate-y-[2px] active:shadow-none">
+                            Vegetarianas
+                        </button>
+                        <button type="button" role="tab" aria-selected="false" aria-controls="lista-produtos" id="btn-Doces"
+                                onclick="filtrar('Doces')"
+                                class="tab-btn min-h-[48px] min-w-[44px] inline-flex items-center justify-center bg-white text-blue-900 px-4 sm:px-5 py-3 rounded-2xl font-black uppercase italic text-xs sm:text-sm transition-all border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[-2px] active:translate-y-[2px] active:shadow-none">
+                            Doces
+                        </button>
+                        <button type="button" role="tab" aria-selected="false" aria-controls="lista-produtos" id="btn-Bebidas"
+                                onclick="filtrar('Bebidas')"
+                                class="tab-btn min-h-[48px] min-w-[44px] inline-flex items-center justify-center bg-white text-blue-900 px-4 sm:px-5 py-3 rounded-2xl font-black uppercase italic text-xs sm:text-sm transition-all border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[-2px] active:translate-y-[2px] active:shadow-none">
+                            Bebidas
+                        </button>
                     </div>
+                </div>
+            </nav>
 
-            <div class="flex items-center justify-start md:justify-center overflow-x-auto gap-3 no-scrollbar pb-2">
-        
-        <button onclick="filtrar('Tradicionais')" id="btn-Tradicionais" 
-                class="tab-btn bg-yellow-400 text-blue-900 px-5 py-3 rounded-2xl font-black uppercase italic text-sm transition-all border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[-2px] active:translate-y-[2px] active:shadow-none">
-            Tradicionais
-        </button>
-        
-        <button onclick="filtrar('Especiais')" id="btn-Especiais" 
-                class="tab-btn bg-white text-blue-900 px-5 py-3 rounded-2xl font-black uppercase italic text-sm transition-all border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[-2px] active:translate-y-[2px] active:shadow-none">
-            Especiais
-        </button>
-        
-        <button onclick="filtrar('Vegetarianas')" id="btn-Vegetarianas" 
-                class="tab-btn bg-white text-blue-900 px-5 py-3 rounded-2xl font-black uppercase italic text-sm transition-all border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[-2px] active:translate-y-[2px] active:shadow-none">
-            Vegetarianas
-        </button>
-        
-        <button onclick="filtrar('Doces')" id="btn-Doces" 
-                class="tab-btn bg-white text-blue-900 px-5 py-3 rounded-2xl font-black uppercase italic text-sm transition-all border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[-2px] active:translate-y-[2px] active:shadow-none">
-            Doces
-        </button>
-        
-        <button onclick="filtrar('Bebidas')" id="btn-Bebidas" 
-                class="tab-btn bg-white text-blue-900 px-5 py-3 rounded-2xl font-black uppercase italic text-sm transition-all border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[-2px] active:translate-y-[2px] active:shadow-none">
-            Bebidas
-        </button>
-    </div>
-</nav>
-
-            <div id="container-meio-meio" class="mb-8 flex justify-center ">
-               
-                <button onclick="iniciarMeioMeio()" 
-                class="bg-blue-600 text-white px-8 py-4 rounded-full font-black uppercase italic tracking-widest shadow-xl flex items-center gap-3 border-2 border-black
-               transition-all duration-300 ease-in-out hover:scale-110 hover:shadow-2xl hover:bg-blue-700 active:scale-95">
-                <i class="fas fa-star text-yellow-400 animate-spin-slow"></i> 
-                         Pizza Meio a Meio <i class="fas fa-star text-yellow-400 animate-spin-slow"></i>
+            <div id="container-meio-meio" class="mb-8 flex justify-center">
+                <button type="button" onclick="iniciarMeioMeio()"
+                        class="bg-blue-600 text-white px-8 py-4 rounded-full font-black uppercase italic tracking-widest shadow-xl flex items-center gap-3 border-2 border-black
+                               transition-all duration-300 ease-in-out hover:scale-110 hover:shadow-2xl hover:bg-blue-700 active:scale-95">
+                    <i class="fas fa-star text-yellow-400 animate-spin-slow"></i>
+                    Pizza Meio a Meio
+                    <i class="fas fa-star text-yellow-400 animate-spin-slow"></i>
                 </button>
-                    </div>
+            </div>
 
-            <div id="lista-produtos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pb-20"></div>
+            <div id="lista-produtos"
+                 role="tabpanel"
+                 aria-labelledby="titulo-cardapio-categorias"
+                 class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pb-20">
+            </div>
         </div>
     </main>
 
+    <!-- Bloco delivery / contato WhatsApp -->
     <section class="relative w-full min-h-[500px] md:h-[450px] flex items-center overflow-hidden border-t-8 border-yellow-400 shadow-2xl">
         <div class="absolute inset-0 z-0">
             <img src="img/capa.png" alt="Capa Parada do Surf" class="w-full h-full object-cover">
@@ -268,7 +390,7 @@
             </div>
         </div>
     </section>
-    
+
     <footer class="bg-black text-slate-300 py-16 border-t border-slate-800">
         <div class="max-w-6xl mx-auto px-6 text-center flex flex-col items-center">
             <img src="img/logo.png" alt="Logo Parada do Surf" class="h-20 w-20 mb-8 object-contain">
@@ -282,11 +404,12 @@
                 <span class="text-blue-400 font-bold uppercase tracking-widest">Ilha Comprida / SP</span>
             </p>
             <div class="w-full max-w-lg h-px bg-slate-800 mb-8"></div>
-            <p class="text-[10px] font-bold uppercase tracking-[0.4em] text-slate-600">Development by  <span class="text-yellow-400">Carlos Alexandre <br><br> </a></span></p>
+            <p class="text-[10px] font-bold uppercase tracking-[0.4em] text-slate-600">Development by <span class="text-yellow-400">Carlos Alexandre<br><br></span></p>
             <a href="https://wa.me/5513981344815" target="_blank" class="hover:text-green-500 transition-all text-1xl"><i class="fab fa-whatsapp"></i> (13) 98134-4815</a>
         </div>
     </footer>
 
+    <!-- Barra flutuante: total + abrir carrinho (visível com itens no carrinho) -->
     <div id="checkout-bar" class="fixed bottom-8 inset-x-4 max-w-md mx-auto z-50 hidden">
         <button onclick="abrirCarrinho()" class="w-full bg-slate-900 text-white p-5 rounded-[2.5rem] shadow-2xl flex justify-between items-center border-4 border-white">
             <div class="flex items-center gap-3">
@@ -297,7 +420,8 @@
         </button>
     </div>
 
-   <div id="modal-carrinho" class="fixed inset-0 hidden z-[150] items-center justify-center p-4">
+    <!-- Modal: itens, endereço, resumo e envio ao WhatsApp -->
+    <div id="modal-carrinho" class="fixed inset-0 hidden z-[150] items-center justify-center p-4">
     <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-md"></div>
 
     <div class="relative bg-white w-full max-w-md rounded-[2.5rem] p-8 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] border-4 border-black overflow-y-auto max-h-[95vh]">
@@ -375,8 +499,9 @@
             </div>
         </div>
     </div>
-</div>
+    </div>
 
+    <!-- Modal: montar pizza meio a meio (dois sabores, preço = maior) -->
     <div id="modal-meio" class="fixed inset-0 hidden z-[120] items-center justify-center p-4 ">
     <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('img/capa.png');"></div>
     <div class="absolute inset-0 bg-blue-900/80 backdrop-blur-sm"></div>
@@ -404,9 +529,38 @@
         </div>
     </div>
 
+    <!-- Modal: confirmação após enviar pedido ao WhatsApp -->
+    <div id="modal-obrigado"
+         class="fixed inset-0 z-[200] hidden items-center justify-center p-4"
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="obrigado-titulo"
+         aria-describedby="obrigado-desc">
+        <div class="absolute inset-0 bg-slate-900/75 backdrop-blur-sm" aria-hidden="true"></div>
+        <div class="relative bg-white w-full max-w-md rounded-[2.5rem] p-8 border-4 border-black shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] text-center">
+            <div class="text-5xl text-green-500 mb-4" aria-hidden="true"><i class="fab fa-whatsapp"></i></div>
+            <h2 id="obrigado-titulo" class="text-2xl font-black text-blue-900 uppercase italic tracking-tighter mb-3">
+                Pedido enviado!
+            </h2>
+            <p id="obrigado-desc" class="text-slate-600 text-sm leading-relaxed mb-8">
+                Muito obrigado pela preferência. Seu pedido foi encaminhado ao WhatsApp da
+                <strong class="text-slate-900">Parada do Surf</strong>.
+                Nossa equipe pode responder em instantes por lá.
+            </p>
+            <button type="button"
+                    id="btn-obrigado-ok"
+                    onclick="confirmarPedidoEnviado()"
+                    class="w-full bg-yellow-400 text-blue-950 py-4 rounded-2xl font-black uppercase italic tracking-widest border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-y-[-2px] active:translate-y-[2px] active:shadow-none min-h-[48px]">
+                OK
+            </button>
+        </div>
+    </div>
+
+    <!-- Lógica do cardápio, carrinho, checkout e meio a meio (escopo global para handlers onclick no HTML) -->
     <script>
-    
-       // ARRAY DE PIZZAS COMPLETO
+        /* =============================================================================
+         * Dados: catálogo de pizzas e bebidas (espelha as abas do filtro).
+         * ============================================================================= */
         const PIZZAS = [
             { id: 1, cat: 'Tradicionais', nome: 'Calabreza', preco: 55, desc: 'Molho, calabreza fatiada, cebolas, azeitonas e orégano' },
             { id: 2, cat: 'Tradicionais', nome: 'Mussarela', preco: 55, desc: 'Molho, mussarela, tomate, azeitonas e orégano' },
@@ -437,34 +591,61 @@
             { id: 17, cat: 'Vegetarianas', nome: 'Brócolis', preco: 64, desc: 'Molho, catupiry, mussarela, bacon, brócolis refogado, alho dourado, tomate, azeitonas e orégano' },
         ];
 
-        // NOVO ARRAY DE BEBIDAS COM OPÇÕES E FOTOS
         const BEBIDAS = [
             { id: 40, cat: 'Bebidas', nome: 'Sucos Naturais 400ml', preco: 12, desc: 'Feitos na hora.', opcoes: ['Maracujá', 'Morango', 'Abacaxi', 'Limão'], img: 'img/SucoNatural.png' },
             { id: 41, cat: 'Bebidas', nome: 'Suco de Laranja 400ml', preco: 14, desc: 'Feitos na hora.', opcoes: ['Laranja', 'Laranja s/ Açucar'], img: 'img/SucoLaranja.png' },
             { id: 50, cat: 'Bebidas', nome: 'Cerveja Lata 350ml', preco: 7.50, desc: 'Geladas.', opcoes: ['Amstel', 'Skol', 'Brahma', 'Original'], img: 'img/cervejaLata.png' },
             { id: 51, cat: 'Bebidas', nome: 'Cerveja Long Neck', preco: 13, desc: 'Geladas.', opcoes: ['Heineken', 'Heineken Zero'], img: 'img/longNeck.png' },
             { id: 60, cat: 'Bebidas', nome: 'Refrigerante Lata 350ml', preco: 7.50, desc: 'Tradicionais.', opcoes: ['Coca-Cola', 'Coca Zero', 'Guaraná'], img: 'img/refriLata.png' },
-            { id: 61, cat: 'Bebidas', nome: 'Refrigerante 2L', preco: 16, desc: 'Familiar.', opcoes: ['Coca-Cola', 'Guaraná'], img: 'img/Refrigerante2L.jpg' },
+            { id: 61, cat: 'Bebidas', nome: 'Refrigerante 2L', preco: 18, desc: 'Familiar.', opcoes: ['Coca-Cola', 'Guaraná'], img: 'img/Refrigerante2L.jpg' },
             { id: 62, cat: 'Bebidas', nome: 'Água Mineral', preco: 5, desc: 'Refrescante.', opcoes: ['Com Gás', 'Sem Gás'], img: 'img/aguaMineral.png' }
         ];
 
+        /* =============================================================================
+         * Estado em memória (sem localStorage).
+         * ============================================================================= */
+        /** @type {{ nome: string, preco: number }[]} */
         let carrinho = [];
+        /** Sabor/marca da bebida escolhido nos chips antes de adicionar ao carrinho */
+        let opcaoSelecionada = null;
+        /** Pizza cujo chip "borda recheada" está ativo (só vale para o próximo clique em Adicionar desse id) */
+        let bordaRecheadaProdutoId = null;
+        /** Sabores escolhidos no modal "meio a meio" */
+        let m1 = null;
+        let m2 = null;
 
+        /* =============================================================================
+         * Cardápio: monta o grid conforme a categoria ativa.
+         * ============================================================================= */
         function render(cat = 'Tradicionais') {
             const grid = document.getElementById('lista-produtos');
             document.getElementById('container-meio-meio').style.display = (cat === 'Bebidas') ? 'none' : 'flex';
-            
+
+            opcaoSelecionada = null;
+            bordaRecheadaProdutoId = null;
+
             const lista = (cat === 'Bebidas') ? BEBIDAS : PIZZAS.filter(p => p.cat === cat);
+            const isBebida = cat === 'Bebidas';
+            const precoBordaFmt = CONFIG.BORDA_RECHEADA.toFixed(2).replace('.', ',');
 
             grid.innerHTML = lista.map(p => {
                 let htmlOpcoes = '';
-                if(p.opcoes) {
-                    htmlOpcoes = `<div class="flex flex-wrap gap-1 mt-3 mb-4">` + 
-                        p.opcoes.map(opt => `<span onclick="selOpt(this, '${opt}')" class="opt-bebida transition-all hover:bg-blue-50">${opt}</span>`).join('') + 
+                if (p.opcoes) {
+                    htmlOpcoes = `<div class="flex flex-wrap gap-1 mt-3 mb-4">` +
+                        p.opcoes.map(opt => `<span onclick="selOpt(this, '${opt.replace(/'/g, "\\'")}')" class="opt-bebida transition-all hover:bg-blue-50">${opt}</span>`).join('') +
                         `</div>`;
                 }
 
-                // O retorno ajustado do card:
+                let htmlBorda = '';
+                if (!isBebida) {
+                    htmlBorda = `
+                        <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest mt-1 mb-1">Borda</p>
+                        <div class="flex flex-wrap gap-1 mb-4">
+                            <span role="button" tabindex="0" onclick="selBorda(this, ${p.id})"
+                                  class="opt-borda transition-all hover:bg-blue-50">Borda recheada (+R$ ${precoBordaFmt})</span>
+                        </div>`;
+                }
+
                 return `
                 <div class="bg-white rounded-[2rem] overflow-hidden flex flex-col card-pizza 
                             border-2 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] 
@@ -491,6 +672,7 @@
                         <p class="text-xs text-slate-400 mb-4">${p.desc}</p>
                         
                         ${htmlOpcoes}
+                        ${htmlBorda}
                         
                         <button onclick="addProduto(${p.id}, '${p.cat}')" 
                                 class="w-full bg-slate-900 text-white py-4 rounded-xl font-black text-xs uppercase tracking-widest mt-auto 
@@ -502,9 +684,7 @@
             }).join('');
         }
 
-        
-        // Selecionar Opção de Bebida clicando
-        let opcaoSelecionada = null;
+        /** Destaca o chip de sabor/marca da bebida e guarda em opcaoSelecionada */
         function selOpt(el, opt) {
             const pai = el.parentElement;
             pai.querySelectorAll('.opt-bebida').forEach(b => b.classList.remove('active'));
@@ -512,19 +692,44 @@
             opcaoSelecionada = opt;
         }
 
+        /** Alterna borda recheada no card da pizza (mesmo padrão visual dos chips de bebida) */
+        function selBorda(el, pizzaId) {
+            const jaAtivo = el.classList.contains('active') && bordaRecheadaProdutoId === pizzaId;
+            document.querySelectorAll('.opt-borda').forEach(b => b.classList.remove('active'));
+            if (jaAtivo) {
+                bordaRecheadaProdutoId = null;
+                return;
+            }
+            el.classList.add('active');
+            bordaRecheadaProdutoId = pizzaId;
+        }
+
+        /** Inclui pizza ou bebida; bebidas com opcoes[] exigem seleção prévia (selOpt) */
         function addProduto(id, cat) {
             const p = (cat === 'Bebidas') ? BEBIDAS.find(x => x.id === id) : PIZZAS.find(x => x.id === id);
-            
-            if(p.opcoes && !opcaoSelecionada) return alert("Por favor, selecione um sabor/marca primeiro!");
-            
-            const nomeFinal = opcaoSelecionada ? `${p.nome} (${opcaoSelecionada})` : p.nome;
-            carrinho.push({ nome: nomeFinal, preco: p.preco });
-            
-            opcaoSelecionada = null; // reseta
+
+            if (cat === 'Bebidas') {
+                if (p.opcoes && !opcaoSelecionada) return alert('Por favor, selecione um sabor/marca primeiro!');
+                const nomeFinal = opcaoSelecionada ? `${p.nome} (${opcaoSelecionada})` : p.nome;
+                carrinho.push({ nome: nomeFinal, preco: p.preco });
+            } else {
+                const comBorda = bordaRecheadaProdutoId === id;
+                const precoBordaFmt = CONFIG.BORDA_RECHEADA.toFixed(2).replace('.', ',');
+                const nomeFinal = comBorda
+                    ? `${p.nome} — Borda recheada (+R$ ${precoBordaFmt})`
+                    : p.nome;
+                const precoFinal = comBorda ? p.preco + CONFIG.BORDA_RECHEADA : p.preco;
+                carrinho.push({ nome: nomeFinal, preco: precoFinal });
+            }
+
+            opcaoSelecionada = null;
+            bordaRecheadaProdutoId = null;
             document.querySelectorAll('.opt-bebida').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.opt-borda').forEach(b => b.classList.remove('active'));
             update();
         }
 
+        /** Atualiza contadores, total com taxa e visibilidade da barra flutuante */
         function update() {
             const sub = carrinho.reduce((a, b) => a + b.preco, 0);
             document.getElementById('badge-carrinho').innerText = carrinho.length;
@@ -534,6 +739,7 @@
             document.getElementById('checkout-bar').classList.toggle('hidden', carrinho.length === 0);
         }
 
+        /** Preenche o modal com itens e totais (subtotal + CONFIG.TAXA_ENTREGA) */
         function abrirCarrinho() {
             const sub = carrinho.reduce((a, b) => a + b.preco, 0);
             document.getElementById('res-subtotal').innerText = `R$ ${sub.toFixed(2)}`;
@@ -546,58 +752,110 @@
             document.getElementById('modal-carrinho').classList.replace('hidden', 'flex');
         }
 
-        function rem(i) { carrinho.splice(i, 1); update(); if(carrinho.length === 0) fecharCarrinho(); else abrirCarrinho(); }
-        function fecharCarrinho() { document.getElementById('modal-carrinho').classList.replace('flex', 'hidden'); }
-        function limparCarrinho() { carrinho = []; update(); fecharCarrinho(); }
-        function filtrar(c) { document.querySelectorAll('.tab-btn').forEach(b => b.classList.replace('bg-yellow-400', 'bg-white')); document.getElementById(`btn-${c}`).classList.replace('bg-white', 'bg-yellow-400'); render(c); }
+        function rem(i) {
+            carrinho.splice(i, 1);
+            update();
+            if (carrinho.length === 0) fecharCarrinho();
+            else abrirCarrinho();
+        }
 
+        function fecharCarrinho() {
+            document.getElementById('modal-carrinho').classList.replace('flex', 'hidden');
+        }
+
+        function limparCarrinho() {
+            carrinho = [];
+            update();
+            fecharCarrinho();
+        }
+
+        /** Alterna estilo das abas, ARIA e redesenha a lista (render) */
+        function filtrar(c) {
+            document.querySelectorAll('.tab-btn').forEach(b => {
+                b.classList.replace('bg-yellow-400', 'bg-white');
+                b.setAttribute('aria-selected', 'false');
+            });
+            const active = document.getElementById(`btn-${c}`);
+            active.classList.replace('bg-white', 'bg-yellow-400');
+            active.setAttribute('aria-selected', 'true');
+            render(c);
+        }
+
+        function limparCamposEntrega() {
+            ['f-rua', 'f-num', 'f-bairro', 'f-whatsapp'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = '';
+            });
+            const pgto = document.getElementById('f-pgto');
+            if (pgto) pgto.selectedIndex = 0;
+        }
+
+        function onObrigadoEscape(e) {
+            if (e.key === 'Escape') confirmarPedidoEnviado();
+        }
+
+        function abrirModalObrigado() {
+            const modal = document.getElementById('modal-obrigado');
+            modal.classList.replace('hidden', 'flex');
+            document.addEventListener('keydown', onObrigadoEscape);
+            requestAnimationFrame(() => document.getElementById('btn-obrigado-ok')?.focus());
+        }
+
+        /** Fecha o modal de agradecimento, remove listener e volta ao topo da página */
+        function confirmarPedidoEnviado() {
+            const modal = document.getElementById('modal-obrigado');
+            modal.classList.replace('flex', 'hidden');
+            document.removeEventListener('keydown', onObrigadoEscape);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            const homeEl = document.querySelector('[data-focus-home]');
+            if (homeEl) homeEl.focus({ preventScroll: true });
+        }
+
+        /** Monta texto da comanda, abre WhatsApp, limpa sessão do pedido e exibe confirmação */
         function gerarPedido() {
             const rua = document.getElementById('f-rua').value;
             const num = document.getElementById('f-num').value;
             const bairro = document.getElementById('f-bairro').value;
             const tel = document.getElementById('f-whatsapp').value;
             const pgto = document.getElementById('f-pgto').value;
-            if(!rua || !num || !bairro || !tel) return alert("Preencha os dados de entrega!");
+            if (!rua || !num || !bairro || !tel) return alert('Preencha os dados de entrega!');
             const sub = carrinho.reduce((a, b) => a + b.preco, 0);
             const total = (sub + CONFIG.TAXA_ENTREGA).toFixed(2);
-            let 
-            
-            msg = 
-            
-            `🌊 *PARADA DO SURF - NOVO PEDIDO*
+            let msg = `🌊 *PARADA DO SURF - NOVO PEDIDO*
             \n==============================\n`;
-            carrinho.forEach(p => msg += `🍕 *${p.nome.toUpperCase()}*\n`);
+            carrinho.forEach(p => { msg += `🍕 *${p.nome.toUpperCase()}*\n`; });
             msg += `==============================\n\n💰 
             *ENTREGA EM:*\n${rua}, ${num}\n${bairro}\n📞 
             *TEL:* ${tel}\n\n💳
             *TOTAL: R$ ${total}*\n\n📍
             *PAGAMENTO:* ${pgto}`;
             window.open(`https://api.whatsapp.com/send?phone=${CONFIG.WHATSAPP}&text=${encodeURIComponent(msg)}`, '_blank');
+
+            fecharCarrinho();
+            carrinho = [];
+            update();
+            limparCamposEntrega();
+            abrirModalObrigado();
         }
 
-        // Lógica Meio a Meio Refatorada (Sênior Version)
-        let m1 = null, m2 = null;
-
+        /* =============================================================================
+         * Pizza meio a meio: dois sabores de PIZZAS[], preço = max(m1, m2).
+         * ============================================================================= */
         function iniciarMeioMeio() {
-            // 1. Resetar estados lógicos
-            m1 = null; 
+            m1 = null;
             m2 = null;
 
-            // 2. Resetar interface visual
             document.getElementById('lado1-nome').innerText = "Lado 1...";
             document.getElementById('lado2-nome').innerText = "Lado 2...";
             
             const btn = document.getElementById('btn-add-meio');
             btn.disabled = true;
             btn.classList.add('opacity-30');
-            // Removemos cores de sucesso caso tenham ficado de uma seleção anterior
             btn.classList.remove('bg-yellow-400', 'text-black');
             btn.classList.add('bg-blue-600', 'text-white');
 
-            // 3. Abrir Modal
             document.getElementById('modal-meio').classList.replace('hidden', 'flex');
 
-            // 4. Renderizar lista de sabores com feedback visual ao passar o mouse
             const lista = document.getElementById('lista-sabores-meio');
             lista.innerHTML = PIZZAS.map(p => `
                 <div onclick="selMeio(${p.id})" 
@@ -608,31 +866,27 @@
             `).join('');
         }
 
+        /** Primeiro clique define m1, segundo define m2 e habilita o botão de confirmar */
         function selMeio(id) {
             const p = PIZZAS.find(x => x.id === id);
 
             if (!m1) {
-                // Selecionando o primeiro sabor
                 m1 = p;
                 const slot1 = document.getElementById('lado1-nome');
                 slot1.innerText = p.nome;
                 slot1.classList.replace('border-blue-200', 'border-blue-600');
                 slot1.classList.replace('text-slate-400', 'text-blue-600');
-            } 
-            else if (!m2) {
-                // Selecionando o segundo sabor
+            } else if (!m2) {
                 m2 = p;
                 const slot2 = document.getElementById('lado2-nome');
                 slot2.innerText = p.nome;
                 slot2.classList.replace('border-blue-200', 'border-blue-600');
                 slot2.classList.replace('text-slate-400', 'text-blue-600');
 
-                // Ativando o botão de confirmação com o novo estilo
                 const btn = document.getElementById('btn-add-meio');
                 btn.disabled = false;
                 btn.classList.remove('opacity-30');
-                
-                // Mudança de cor opcional para indicar "Pronto para adicionar"
+
                 btn.classList.replace('bg-blue-600', 'bg-yellow-400');
                 btn.classList.replace('text-white', 'text-black');
 
@@ -651,32 +905,29 @@
         }
 
         render();
-
-        
     </script>
 
-    <button id="btn-topo" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" 
-    class="fixed bottom-24 right-6 z-50 bg-yellow-400 text-black w-12 h-12 rounded-xl border-2 border-black 
-           shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 
-           hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none
-           opacity-0 translate-y-10 pointer-events-none">
-    <i class="fas fa-arrow-up text-xl"></i>
-</button>
-<script>
-    const btnTopo = document.getElementById('btn-topo');
+    <!-- Volta ao topo após rolagem (evita sobrepor a barra do carrinho: bottom-24) -->
+    <button type="button" id="btn-topo" onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
+            class="fixed bottom-24 right-6 z-50 bg-yellow-400 text-black w-12 h-12 rounded-xl border-2 border-black
+                   shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all duration-300
+                   hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none
+                   opacity-0 translate-y-10 pointer-events-none">
+        <i class="fas fa-arrow-up text-xl"></i>
+    </button>
+    <script>
+        const btnTopo = document.getElementById('btn-topo');
 
-    window.onscroll = function() {
-        if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-            // Mostra o botão
-            btnTopo.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
-            btnTopo.classList.add('opacity-100', 'translate-y-0', 'pointer-events-all');
-        } else {
-            // Esconde o botão
-            btnTopo.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
-            btnTopo.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-all');
-        }
-    };
-</script>
+        window.onscroll = function () {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                btnTopo.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+                btnTopo.classList.add('opacity-100', 'translate-y-0', 'pointer-events-all');
+            } else {
+                btnTopo.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+                btnTopo.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-all');
+            }
+        };
+    </script>
 </body>
 </html>
 
