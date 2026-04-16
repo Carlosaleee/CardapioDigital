@@ -123,14 +123,28 @@
             text-transform: uppercase;
         }
 
+        .opt-borda-meio {
+            border: 1px solid #e2e8f0;
+            padding: 6px 12px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            display: inline-block;
+        }
+
         .opt-bebida:hover,
-        .opt-borda:hover {
+        .opt-borda:hover,
+        .opt-borda-meio:hover {
             border-color: #3b82f6;
             color: #3b82f6;
         }
 
         .opt-bebida.active,
-        .opt-borda.active {
+        .opt-borda.active,
+        .opt-borda-meio.active {
             background-color: #3b82f6;
             border-color: #3b82f6;
             color: white;
@@ -532,9 +546,18 @@
 
     <div class="relative bg-white w-full max-w-lg rounded-[2.5rem] p-8 text-center border-4 border-black shadow-2xl">
         <h2 class="text-2xl font-black text-blue-900 uppercase italic mb-2">Montar Meio a Meio</h2>
-            <div class="grid grid-cols-2 gap-4 mb-8">
-                <div id="lado1-nome" class="bg-slate-50 p-4 rounded-2xl border-2 border-dashed border-blue-200 text-xs font-bold text-slate-400 uppercase italic">Lado 1...</div>
-                <div id="lado2-nome" class="bg-slate-50 p-4 rounded-2xl border-2 border-dashed border-blue-200 text-xs font-bold text-slate-400 uppercase italic">Lado 2...</div>
+            <div class="grid grid-cols-2 gap-2 mt-4 mb-4">
+                <div id="lado1-nome" class="border-2 border-dashed border-blue-200 p-3 rounded-xl text-[10px] font-black uppercase text-slate-400 text-center truncate">Lado 1...</div>
+                <div id="lado2-nome" class="border-2 border-dashed border-blue-200 p-3 rounded-xl text-[10px] font-black uppercase text-slate-400 text-center truncate">Lado 2...</div>
+            </div>
+            <div class="mt-4">
+                <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1 text-center">Opcional</p>
+                <div class="flex justify-center">
+                    <span id="opt-borda-meio" role="button" onclick="selBordaMeio(this)"
+                          class="opt-borda-meio transition-all hover:bg-blue-50 text-center w-full">
+                        Borda recheada (+R$ 7,00)
+                    </span>
+                </div>
             </div>
             <div id="lista-sabores-meio" class="h-64 overflow-y-auto space-y-2 no-scrollbar mb-8"></div>
             <button id="btn-add-meio" 
@@ -618,11 +641,72 @@
         const BEBIDAS = [
             { id: 40, cat: 'Bebidas', nome: 'Sucos Naturais 400ml', preco: 12, desc: 'Feitos na hora.', opcoes: ['Maracujá', 'Morango', 'Abacaxi', 'Limão'], img: 'img/SucoNatural.png' },
             { id: 41, cat: 'Bebidas', nome: 'Suco de Laranja 400ml', preco: 14, desc: 'Feitos na hora.', opcoes: ['Laranja', 'Laranja s/ Açucar'], img: 'img/SucoLaranja.png' },
-            { id: 50, cat: 'Bebidas', nome: 'Cerveja Lata 350ml', preco: 7.50, desc: 'Geladas.', opcoes: ['Amstel', 'Skol', 'Brahma', 'Original'], img: 'img/cervejaLata.png' },
-            { id: 51, cat: 'Bebidas', nome: 'Cerveja Long Neck', preco: 13, desc: 'Geladas.', opcoes: ['Heineken', 'Heineken Zero'], img: 'img/longNeck.png' },
-            { id: 60, cat: 'Bebidas', nome: 'Refrigerante Lata 350ml', preco: 7.50, desc: 'Tradicionais.', opcoes: ['Coca-Cola', 'Coca Zero', 'Guaraná'], img: 'img/refriLata.png' },
-            { id: 61, cat: 'Bebidas', nome: 'Refrigerante 2L', preco: 18, desc: 'Familiar.', opcoes: ['Coca-Cola', 'Guaraná'], img: 'img/Refrigerante2L.jpg' },
-            { id: 62, cat: 'Bebidas', nome: 'Água Mineral', preco: 5, desc: 'Refrescante.', opcoes: ['Com Gás', 'Sem Gás'], img: 'img/aguaMineral.png' }
+            { id: 43, cat: 'Bebidas', nome: 'Cerveja Lata 350ml', preco: 7.5, desc: 'Geladas.', opcoes: ['Amstel', 'Skol', 'Brahma', 'Original'], img: 'img/cervejaLata.png' },
+            { id: 44, cat: 'Bebidas', nome: 'Cerveja Long Neck', preco: 13, desc: 'Geladas.', opcoes: ['Heineken', 'Heineken Zero'], img: 'img/longNeck.png' },
+            { id: 45, cat: 'Bebidas', nome: 'Refrigerante Lata 350ml', preco: 7.5, desc: 'Tradicionais.', opcoes: ['Coca-Cola', 'Coca Zero', 'Guaraná'], img: 'img/refriLata.png' },
+            { id: 46, cat: 'Bebidas', nome: 'Refrigerante 2L', preco: 18, desc: 'Familiar.', opcoes: ['Coca-Cola', 'Guaraná'], img: 'img/Refrigerante2L.jpg' },
+            { id: 47, cat: 'Bebidas', nome: 'Água Mineral', preco: 5, desc: 'Refrescante.', opcoes: ['Com Gás', 'Sem Gás'], img: 'img/aguaMineral.png' },
+            { id: 48, cat: 'Bebidas', nome: 'Energético 250ml', preco: 18, desc: 'Para dar aquela energia extra.', opcoes: ['Red Bull', 'Monster'], img: 'img/energetico.png' },
+            { id: 49, cat: 'Bebidas', nome: 'Cerveja 600ml', preco: 18, desc: 'Cerveja garrafa 600ml.', opcoes: ['Original', 'Amstel'], img: 'img/cerveja600ml.png' },
+            { id: 50, cat: 'Bebidas', nome: 'Cerveja Heineken 600ml', preco: 20, desc: 'Cerveja garrafa 600ml.', img: 'img/cerveja600ml.png' },
+
+            { 
+        id: 51, 
+        cat: 'Bebidas', 
+        nome: 'Caipirinhas 400ml', 
+        preco: 30, 
+        desc: 'Limão, Morango, Maracujá ou Abacaxi.', 
+        opcoes: ['Velho Barreiro', 'Cachaça 51'], 
+        img: 'img/caipirinha.png' 
+    },
+    { 
+        id: 52, 
+        cat: 'Bebidas', 
+        nome: 'Caipirinhas Especiais 400ml', 
+        preco: 35, 
+        desc: 'Limão, Morango, Maracujá ou Abacaxi.', 
+        opcoes: ['Vodka', 'Saquê'], 
+        img: 'img/caipirinha_especial.png' 
+    },
+    { 
+        id: 53, 
+        cat: 'Bebidas', 
+        nome: 'Batidas 400ml', 
+        preco: 30, 
+        desc: 'Sabores: Morango, Maracujá ou Abacaxi.', 
+        opcoes: ['Com Pinga', 'Com Velho Barreiro'], 
+        img: 'img/batida.png' 
+    },
+    { 
+        id: 54, 
+        cat: 'Bebidas', 
+        nome: 'Batidas Especiais 400ml', 
+        preco: 35, 
+        desc: 'Coquetéis elaborados.', 
+        opcoes: ['Com Vodka', 'Espanhola (Vinho/Abacaxi)', 'Portuguesa (Vinho/Morango)', 'Insano'], 
+        img: 'img/batida_especial.png' 
+    },
+
+    // --- REPOSIÇÃO / EXTRAS ---
+    { 
+        id: 55, 
+        cat: 'Bebidas', 
+        nome: 'Gatorade', 
+        preco: 12, 
+        desc: 'Suplemento hidroeletrolítico.', 
+        opcoes: ['Sabores conforme estoque'], 
+        img: 'img/gatorade.png' 
+    },
+    { 
+        id: 56, 
+        cat: 'Bebidas', 
+        nome: 'Cerveja Duplo Malte Lata', 
+        preco: 7.5, 
+        desc: 'Gelada.', 
+        img: 'img/cervejaLata.png' 
+    }
+            
+
         ];
 
         /* =============================================================================
@@ -634,6 +718,8 @@
         let opcaoSelecionada = null;
         /** Pizza cujo chip "borda recheada" está ativo (só vale para o próximo clique em Adicionar desse id) */
         let bordaRecheadaProdutoId = null;
+        /** Borda recheada ativa no modal "meio a meio" */
+        let bordaMeioAtiva = false;
         /** Sabores escolhidos no modal "meio a meio" */
         let m1 = null;
         let m2 = null;
@@ -726,6 +812,11 @@
             }
             el.classList.add('active');
             bordaRecheadaProdutoId = pizzaId;
+        }
+
+        function selBordaMeio(el) {
+            bordaMeioAtiva = !bordaMeioAtiva;
+            el.classList.toggle('active');
         }
 
         /** Inclui pizza ou bebida; bebidas com opcoes[] exigem seleção prévia (selOpt) */
@@ -868,12 +959,17 @@
         function iniciarMeioMeio() {
             m1 = null;
             m2 = null;
+            bordaMeioAtiva = false;
 
             document.getElementById('lado1-nome').innerText = "Lado 1...";
             document.getElementById('lado2-nome').innerText = "Lado 2...";
             
+            const btnBorda = document.getElementById('opt-borda-meio');
+            if (btnBorda) btnBorda.classList.remove('active');
+
             const btn = document.getElementById('btn-add-meio');
             btn.disabled = true;
+            btn.onclick = null;
             btn.classList.add('opacity-30');
             btn.classList.remove('bg-yellow-400', 'text-black');
             btn.classList.add('bg-blue-600', 'text-white');
@@ -915,10 +1011,19 @@
                 btn.classList.replace('text-white', 'text-black');
 
                 btn.onclick = () => {
-                    // Adiciona ao carrinho com o preço da maior
-                    const valorFinal = Math.max(m1.preco, m2.preco);
+                    const valorBase = Math.max(m1.preco, m2.preco);
+                    const precoBordaFmt = CONFIG.BORDA_RECHEADA.toFixed(2).replace('.', ',');
+
+                    let valorFinal = valorBase;
+                    let nomeFinal = `½ ${m1.nome} / ½ ${m2.nome}`;
+
+                    if (bordaMeioAtiva) {
+                        valorFinal += CONFIG.BORDA_RECHEADA;
+                        nomeFinal += ` — Borda recheada (+R$ ${precoBordaFmt})`;
+                    }
+
                     carrinho.push({ 
-                        nome: `½ ${m1.nome} / ½ ${m2.nome}`, 
+                        nome: nomeFinal, 
                         preco: valorFinal 
                     });
                     
